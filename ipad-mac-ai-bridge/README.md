@@ -1,7 +1,8 @@
 # iPad–Mac AI Bridge
 
-iPad Kestirmeleri üzerinden Mac'teki Ollama ile sohbet etmeyi ve izin verilen
-Mac eylemlerini çalıştırmayı sağlayan küçük bir yerel API.
+iPad Kestirmeleri üzerinden Mac'teki `llama.cpp` modeliyle sohbet etmeyi ve
+izin verilen Mac eylemlerini çalıştırmayı sağlayan küçük bir yerel API. Bu
+sürüm özellikle macOS Ventura ile sınırlı 2017 Intel iMac için hazırlanmıştır.
 
 ## Güvenlik modeli
 
@@ -22,12 +23,19 @@ Gereksinimler:
 
 - macOS 12 Monterey veya üzeri
 - Python 3
-- [Ollama](https://ollama.com/download/mac)
+- [Homebrew](https://brew.sh/)
+- 32 GB RAM için önerilen Qwen2.5 7B GGUF model
 
 Terminal'de:
 
 ```bash
-ollama pull qwen2.5:3b
+brew install llama.cpp
+
+mkdir -p ~/Models
+curl -L --fail \
+  -o ~/Models/qwen2.5-7b-instruct-q4_k_m.gguf \
+  "https://huggingface.co/Qwen/Qwen2.5-7B-Instruct-GGUF/resolve/main/qwen2.5-7b-instruct-q4_k_m.gguf"
+
 cd ipad-mac-ai-bridge
 chmod +x setup-mac.sh run.sh
 ./setup-mac.sh
@@ -35,10 +43,11 @@ chmod +x setup-mac.sh run.sh
 
 Kurulum:
 
-1. `config.json` dosyasını oluşturur.
-2. `.env` içine rastgele API anahtarı yazar.
-3. API'yi bir kullanıcı LaunchAgent'ı olarak başlatır.
-4. iPad'de kullanılacak Mac IP adresini ve API anahtarını gösterir.
+1. `llama-server` ve GGUF modelini kontrol eder.
+2. `config.json` dosyasını oluşturur.
+3. `.env` içine rastgele API anahtarı yazar.
+4. Lokal model sunucusunu ve API'yi iki kullanıcı LaunchAgent'ı olarak başlatır.
+5. iPad'de kullanılacak Mac IP adresini ve API anahtarını gösterir.
 
 Kontrol:
 
@@ -52,8 +61,16 @@ Beklenen cevap:
 {"status":"ok"}
 ```
 
-Ollama'nın da oturum açıldığında otomatik başlaması gerekir. Ollama menü
-uygulamasını bir kez açıp **Login Items** altında etkinleştirin.
+Kurulum model sunucusunu yalnızca `127.0.0.1:8080` üzerinde çalıştırır. iPad
+doğrudan modele değil, anahtarla korunan köprüye bağlanır.
+
+### 2017 iMac performansı
+
+32 GB RAM ile 7B Q4 model rahatça belleğe sığar. İlk kurulum CPU modunda
+`LLAMA_GPU_LAYERS=0` kullanır. Radeon GPU'nun Metal hızlandırmasını denemek
+için `.env` içindeki değeri önce `20` yapıp iki servisi yeniden başlatın.
+Kararlıysa artırılabilir; hata veya aşırı bellek kullanımı olursa tekrar `0`
+yapın. 14B modeller belleğe sığsa da 2017 Intel işlemcide daha yavaş olacaktır.
 
 ## 2. İzin verilen Mac eylemlerini düzenleme
 
@@ -167,12 +184,14 @@ tail -f ~/Library/Logs/ipad-mac-ai-bridge.log
 Yeniden başlatma:
 
 ```bash
+launchctl kickstart -k "gui/$(id -u)/com.erolos.ipad-mac-llama-server"
 launchctl kickstart -k "gui/$(id -u)/com.erolos.ipad-mac-ai-bridge"
 ```
 
 Durdurma:
 
 ```bash
+launchctl bootout "gui/$(id -u)/com.erolos.ipad-mac-llama-server"
 launchctl bootout "gui/$(id -u)/com.erolos.ipad-mac-ai-bridge"
 ```
 
@@ -184,7 +203,7 @@ python3 -m unittest -v
 
 ## Codex ekleme
 
-İlk sürüm sohbet için yerel Ollama'yı kullanır. Codex daha sonra ayrı ve
+İlk sürüm sohbet için yerel `llama.cpp` kullanır. Codex daha sonra ayrı ve
 onaylı bir geliştirme eylemi olarak eklenebilir. Codex'e doğrudan serbest
 terminal erişimi vermek yerine belirli bir depo ve çalışma diziniyle
 sınırlandırmak gerekir.

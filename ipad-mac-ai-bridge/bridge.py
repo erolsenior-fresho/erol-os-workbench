@@ -61,14 +61,16 @@ def require_token() -> str:
     return token
 
 
-def ollama_chat(message: str) -> dict[str, str]:
+def local_llm_chat(message: str) -> dict[str, str]:
     if not isinstance(message, str) or not message.strip():
         raise BridgeError("message must be a non-empty string.")
     if len(message) > MAX_MESSAGE_CHARS:
         raise BridgeError(f"message cannot exceed {MAX_MESSAGE_CHARS} characters.")
 
-    base_url = os.environ.get("OLLAMA_URL", "http://127.0.0.1:11434").rstrip("/")
-    model = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
+    endpoint = os.environ.get(
+        "LOCAL_LLM_URL", "http://127.0.0.1:8080/v1/chat/completions"
+    )
+    model = os.environ.get("LOCAL_LLM_MODEL", "local")
     payload = json.dumps(
         {
             "model": model,
@@ -76,36 +78,43 @@ def ollama_chat(message: str) -> dict[str, str]:
             "stream": False,
         }
     ).encode()
-    ollama_request = request.Request(
-        f"{base_url}/api/chat",
+    llm_request = request.Request(
+        endpoint,
         data=payload,
         headers={"Content-Type": "application/json"},
         method="POST",
     )
 
     try:
-        with request.urlopen(ollama_request, timeout=120) as response:
+        with request.urlopen(llm_request, timeout=120) as response:
             result = json.load(response)
     except error.HTTPError as exc:
         detail = exc.read().decode(errors="replace")
         raise BridgeError(
-            f"Ollama returned HTTP {exc.code}: {detail[:300]}",
+            f"Local model server returned HTTP {exc.code}: {detail[:300]}",
             HTTPStatus.BAD_GATEWAY,
         ) from exc
     except (error.URLError, TimeoutError) as exc:
         raise BridgeError(
-            "Ollama is unavailable. Start Ollama and verify OLLAMA_URL.",
+            "Local model server is unavailable. Start llama-server and verify "
+            "LOCAL_LLM_URL.",
             HTTPStatus.BAD_GATEWAY,
         ) from exc
     except json.JSONDecodeError as exc:
         raise BridgeError(
-            "Ollama returned invalid JSON.", HTTPStatus.BAD_GATEWAY
+            "Local model server returned invalid JSON.", HTTPStatus.BAD_GATEWAY
         ) from exc
 
-    reply = result.get("message", {}).get("content")
+    choices = result.get("choices", [])
+    reply = (
+        choices[0].get("message", {}).get("content")
+        if isinstance(choices, list) and choices
+        else None
+    )
     if not isinstance(reply, str):
         raise BridgeError(
-            "Ollama response did not contain a message.", HTTPStatus.BAD_GATEWAY
+            "Local model response did not contain a message.",
+            HTTPStatus.BAD_GATEWAY,
         )
     return {"reply": reply, "model": model}
 
@@ -247,7 +256,7 @@ class BridgeServer(ThreadingHTTPServer):
         address: tuple[str, int],
         config: dict[str, Any],
         api_token: str,
-        chat: Callable[[str], dict[str, str]] = ollama_chat,
+        chat: Callable[[str], dict[str, str]] = local_llm_chat,
     ):
         super().__init__(address, BridgeHandler)
         self.config = config
