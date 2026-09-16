@@ -1,0 +1,12 @@
+{
+  "allowed_apps": {
+    "cursor": "Cursor",
+    "notes": "Notes",
+    "safari": "Safari"
+  },
+  "allowed_urls": {
+    "cursor_agents": "https://cursor.com/agents",
+    "github": "https://github.com"
+  },
+  "allowed_shortcuts": {}
+}
