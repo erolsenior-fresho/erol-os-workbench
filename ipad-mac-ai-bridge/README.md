@@ -66,11 +66,14 @@ doğrudan modele değil, anahtarla korunan köprüye bağlanır.
 
 ### 2017 iMac performansı
 
-32 GB RAM ile 7B Q4 model rahatça belleğe sığar. İlk kurulum CPU modunda
-`LLAMA_GPU_LAYERS=0` kullanır. Radeon GPU'nun Metal hızlandırmasını denemek
-için `.env` içindeki değeri önce `20` yapıp iki servisi yeniden başlatın.
-Kararlıysa artırılabilir; hata veya aşırı bellek kullanımı olursa tekrar `0`
-yapın. 14B modeller belleğe sığsa da 2017 Intel işlemcide daha yavaş olacaktır.
+32 GB RAM ile 7B Q4 model rahatça belleğe sığar. İlk kurulum Metal
+hızlandırmasını güvenli bir kısmi offload değeri olan
+`LLAMA_GPU_LAYERS=8` ile açar. `.env` içindeki değer Radeon belleğine göre
+kademeli artırılabilir: 2 GB için `4–8`, 4 GB için `12–18`, 8 GB için `99`
+(tüm katmanlar) denenebilir. Hata veya aşırı bellek kullanımı olursa değeri
+azaltın; `0` tamamen CPU modudur. Her değişiklikten sonra iki servisi yeniden
+başlatın. 14B modeller belleğe sığsa da 2017 Intel işlemcide daha yavaş
+olacaktır.
 
 ## 2. İzin verilen Mac eylemlerini düzenleme
 
