@@ -1,0 +1,38 @@
+{
+  "name": "Erol OS Uygulamalar",
+  "short_name": "Erol OS",
+  "description": "iPad için macOS tarzı uygulama klasörü ve başlatıcı.",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#060a12",
+  "theme_color": "#101726",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Favoriler",
+      "short_name": "Favoriler",
+      "url": "./#favoriler"
+    },
+    {
+      "name": "Uygulama Ekle",
+      "short_name": "Ekle",
+      "url": "./#ekle"
+    }
+  ]
+}

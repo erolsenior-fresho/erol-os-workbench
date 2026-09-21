@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101726" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Erol OS" />
+    <meta name="description" content="iPad için macOS tarzı uygulama klasörü ve başlatıcı." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Erol OS — Uygulamalar</title>
+  </head>
+  <body>
+    <div class="wallpaper" aria-hidden="true">
+      <div class="aurora aurora-one"></div>
+      <div class="aurora aurora-two"></div>
+      <div class="planet"></div>
+    </div>
+
+    <header class="menu-bar">
+      <div class="menu-left">
+        <button class="apple-mark" id="aboutButton" aria-label="Erol OS hakkında">◆</button>
+        <strong>Erol OS</strong>
+        <span class="menu-item">Dosya</span>
+        <span class="menu-item">Görünüm</span>
+      </div>
+      <div class="menu-right">
+        <span class="status-chip" aria-label="Bağlantı durumu">⌁</span>
+        <span class="status-chip" aria-label="Pil">%62</span>
+        <time id="menuClock">09:41</time>
+      </div>
+    </header>
+
+    <main class="finder-window" aria-label="Uygulama klasörü">
+      <div class="window-toolbar">
+        <div class="traffic-lights" aria-hidden="true">
+          <span class="traffic red"></span>
+          <span class="traffic yellow"></span>
+          <span class="traffic green"></span>
+        </div>
+        <div class="history-controls" aria-hidden="true">
+          <button tabindex="-1">‹</button>
+          <button tabindex="-1">›</button>
+        </div>
+        <div class="window-title">
+          <span class="folder-glyph">▰</span>
+          <strong id="windowTitle">Favoriler</strong>
+        </div>
+        <label class="search-box" for="searchInput">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Uygulama ara" autocomplete="off" />
+          <kbd>⌘ K</kbd>
+        </label>
+        <button class="toolbar-button" id="editButton" type="button">Düzenle</button>
+        <button class="toolbar-button primary" id="addButton" type="button">＋ Ekle</button>
+      </div>
+
+      <div class="window-body">
+        <aside class="sidebar">
+          <p class="sidebar-label">KISAYOLLAR</p>
+          <nav id="categoryList" aria-label="Uygulama kategorileri"></nav>
+          <button class="install-card" id="installButton" type="button">
+            <span class="install-icon">↗</span>
+            <span>
+              <strong>Dock’a ekle</strong>
+              <small>Kurulum adımları</small>
+            </span>
+          </button>
+        </aside>
+
+        <section class="content-panel">
+          <div class="content-heading">
+            <div>
+              <p class="eyebrow">UYGULAMALAR</p>
+              <h1 id="contentTitle">Favoriler</h1>
+            </div>
+            <p id="resultCount" class="result-count"></p>
+          </div>
+          <div id="appGrid" class="app-grid" role="list"></div>
+          <div id="emptyState" class="empty-state" hidden>
+            <span>⌕</span>
+            <h2>Uygulama bulunamadı</h2>
+            <p>Başka bir arama deneyin veya yeni bir uygulama ekleyin.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <nav class="system-dock" id="systemDock" aria-label="Favori uygulamalar"></nav>
+
+    <dialog id="appDialog" class="glass-dialog">
+      <form id="appForm" method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">YENİ KISAYOL</p>
+            <h2>Uygulama ekle</h2>
+          </div>
+          <button class="close-button" value="cancel" aria-label="Kapat">×</button>
+        </div>
+        <label>
+          Uygulama adı
+          <input name="name" required maxlength="32" placeholder="Örn. Banka" />
+        </label>
+        <label>
+          Kategori
+          <select name="category" id="categorySelect"></select>
+        </label>
+        <div class="form-row">
+          <label>
+            Simge
+            <input name="symbol" maxlength="3" value="◆" />
+          </label>
+          <label>
+            Renk
+            <input name="color" type="color" value="#4f8cff" />
+          </label>
+        </div>
+        <label>
+          Web adresi veya uygulama bağlantısı
+          <input name="url" type="text" required placeholder="https://… veya uygulama://" />
+          <small>Universal Link kullanılırsa yüklü uygulama doğrudan açılır.</small>
+        </label>
+        <label class="checkbox-row">
+          <input name="favorite" type="checkbox" />
+          Dock’ta göster
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="secondary-button">Vazgeç</button>
+          <button value="default" class="primary-button">Ekle</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="installDialog" class="glass-dialog install-dialog">
+      <form method="dialog">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">IPAD KURULUMU</p>
+            <h2>Başlatıcıyı Dock’a ekle</h2>
+          </div>
+          <button class="close-button" value="cancel" aria-label="Kapat">×</button>
+        </div>
+        <ol class="steps">
+          <li><span>1</span><p>Bu sayfayı iPad’de <strong>Safari</strong> ile açın.</p></li>
+          <li><span>2</span><p>Paylaş düğmesine dokunup <strong>Ana Ekrana Ekle</strong> seçin.</p></li>
+          <li><span>3</span><p>Ana ekrandaki <strong>Erol OS</strong> simgesine basılı tutup Dock’a sürükleyin.</p></li>
+        </ol>
+        <p class="dialog-note">iPadOS uygulamaları otomatik listelemeye izin vermez. Bu başlatıcı, tanımlı Universal Link’leri ve sizin eklediğiniz bağlantıları kullanır.</p>
+        <div class="dialog-actions">
+          <button value="default" class="primary-button">Anladım</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
