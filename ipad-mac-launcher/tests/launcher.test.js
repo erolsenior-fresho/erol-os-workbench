@@ -31,6 +31,21 @@ test("default Dock fits the twelve-item launcher limit", () => {
   assert.ok(dockApps.length <= 12, `Dock has ${dockApps.length} default apps`);
 });
 
+test("every bundled app has macOS-style SVG artwork", async () => {
+  const manifest = JSON.parse(
+    await readFile(new URL("../icons/apps/manifest.json", import.meta.url), "utf8")
+  );
+  assert.equal(manifest.length, APPS.length);
+
+  for (const app of APPS) {
+    const expectedPath = `./icons/apps/${app.id}.svg`;
+    assert.ok(manifest.includes(expectedPath), `${app.name} is missing from the icon manifest`);
+    const artwork = await readFile(new URL(`../icons/apps/${app.id}.svg`, import.meta.url), "utf8");
+    assert.match(artwork, /^<svg /);
+    assert.match(artwork, /linearGradient/);
+  }
+});
+
 test("manifest references generated install icons", async () => {
   const manifest = JSON.parse(await readFile(new URL("../manifest.webmanifest", import.meta.url), "utf8"));
   assert.equal(manifest.display, "standalone");

@@ -1,6 +1,6 @@
 # Erol OS iPad Launcher
 
-iPad ana ekranında Dock'a eklenebilen, macOS Finder görünümünde bir uygulama klasörü/başlatıcıdır. Kullanıcının ekran görüntülerindeki uygulamalar kategori, arama ve özelleştirilebilir favori Dock'u ile önceden tanımlıdır.
+iPad ana ekranında Dock'a eklenebilen, macOS Finder görünümünde bir uygulama klasörü/başlatıcıdır. Kullanıcının ekran görüntülerindeki uygulamalar kategori, arama, macOS tarzı simgeler ve özelleştirilebilir favori Dock'u ile önceden tanımlıdır.
 
 ## Çalıştırma
 
@@ -26,5 +26,6 @@ iPadOS, üçüncü taraf uygulamalara cihazdaki uygulamaları otomatik listeleme
 ## Test
 
 ```bash
+npm run icons
 npm test
 ```

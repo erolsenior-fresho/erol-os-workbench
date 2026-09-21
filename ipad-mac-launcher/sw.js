@@ -1,4 +1,4 @@
-const CACHE_NAME = "erol-os-launcher-v1";
+const CACHE_NAME = "erol-os-launcher-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,11 +8,19 @@ const APP_SHELL = [
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./icons/apps/manifest.json"
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)));
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      await cache.addAll(APP_SHELL);
+      const response = await fetch("./icons/apps/manifest.json");
+      const appIcons = await response.json();
+      await cache.addAll(appIcons);
+    })
+  );
   self.skipWaiting();
 });
 

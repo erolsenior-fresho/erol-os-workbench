@@ -101,15 +101,26 @@ const toggleFavorite = (id) => {
 
 const createAppCard = (app) => {
   const card = document.createElement("button");
+  const hasArtwork = !app.custom;
   card.className = "app-card";
   card.type = "button";
   card.role = "listitem";
   card.title = app.url ? `${app.name} uygulamasını aç` : `${app.name} bağlantısını düzenle`;
   card.innerHTML = `
     <span class="favorite-toggle" aria-hidden="true">${favorites.has(app.id) ? "★" : "☆"}</span>
-    <span class="app-icon" style="${iconStyles(app)}">${app.symbol}</span>
+    <span class="app-icon${hasArtwork ? " has-artwork" : ""}" style="${iconStyles(app)}"></span>
     <span class="app-name"></span>
   `;
+  const icon = card.querySelector(".app-icon");
+  if (hasArtwork) {
+    const image = document.createElement("img");
+    image.src = `./icons/apps/${app.id}.svg`;
+    image.alt = "";
+    image.draggable = false;
+    icon.append(image);
+  } else {
+    icon.textContent = app.symbol;
+  }
   card.querySelector(".app-name").textContent = app.name;
   card.addEventListener("click", () => launchApp(app));
   return card;
@@ -155,11 +166,20 @@ const renderDock = () => {
   const favoriteApps = allApps().filter((app) => favorites.has(app.id)).slice(0, 12);
   const dockButtons = favoriteApps.map((app) => {
     const button = document.createElement("button");
-    button.className = "dock-app";
+    const hasArtwork = !app.custom;
+    button.className = `dock-app${hasArtwork ? " has-artwork" : ""}`;
     button.type = "button";
     button.title = app.name;
     button.style.cssText = iconStyles(app);
-    button.textContent = app.symbol;
+    if (hasArtwork) {
+      const image = document.createElement("img");
+      image.src = `./icons/apps/${app.id}.svg`;
+      image.alt = "";
+      image.draggable = false;
+      button.append(image);
+    } else {
+      button.textContent = app.symbol;
+    }
     button.addEventListener("click", () => launchApp(app));
     return button;
   });
