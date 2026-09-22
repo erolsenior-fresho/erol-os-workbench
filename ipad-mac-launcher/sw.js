@@ -1,4 +1,4 @@
-const CACHE_NAME = "erol-os-launcher-v2";
+const CACHE_NAME = "erol-os-launcher-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
