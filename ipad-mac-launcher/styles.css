@@ -597,8 +597,79 @@ body.editing .app-icon {
   box-shadow: none;
 }
 
+.dock-app {
+  position: relative;
+  overflow: visible;
+}
+
 .dock-app:hover {
   transform: translateY(-10px) scale(1.22);
+}
+
+.dock-app.running::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.65);
+}
+
+.dock-time {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  translate: -50% 0;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  color: #fff;
+  white-space: nowrap;
+  background: rgba(18, 22, 30, 0.82);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.dock-quit {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(28, 30, 36, 0.92);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.dock-app:hover .dock-quit,
+.dock-quit:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dock-separator {
+  align-self: center;
+  width: 1px;
+  height: 42px;
+  margin: 0 3px;
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 1px;
 }
 
 .glass-dialog {
