@@ -13,7 +13,9 @@ Ardından `http://localhost:4173` adresini açın.
 
 ## iPad'e kurma
 
-1. Uygulamayı HTTPS üzerinden yayınlayın ve iPad'de Safari ile açın.
+Uygulama `.github/workflows/ipad-launcher-pages.yml` iş akışıyla GitHub Pages'a yayınlanır.
+
+1. GitHub Pages adresini iPad'de Safari ile açın.
 2. Paylaş menüsünden **Ana Ekrana Ekle** seçeneğini kullanın.
 3. Oluşan **Erol OS** simgesine basılı tutup iPad Dock'una sürükleyin.
 
