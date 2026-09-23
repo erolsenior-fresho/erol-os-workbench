@@ -59,7 +59,24 @@ const BRAND_ICONS = {
   rustdesk: "siRustdesk",
   teamviewer: "siTeamviewer",
   anydesk: "siAnydesk",
-  windows: "siWindows11"
+  windows: "siWindows11",
+  gimp: "siGimp",
+  inkscape: "siInkscape",
+  krita: "siKrita",
+  blender: "siBlender",
+  libreoffice: "siLibreoffice",
+  vlc: "siVlcmediaplayer",
+  "obs-studio": "siObsstudio",
+  audacity: "siAudacity",
+  kdenlive: "siKdenlive",
+  steam: "siSteam",
+  discord: "siDiscord",
+  signal: "siSignal",
+  thunderbird: "siThunderbird",
+  docker: "siDocker",
+  neovim: "siNeovim",
+  flatpak: "siFlatpak",
+  ubuntu: "siUbuntu"
 };
 
 const LUCIDE_ICONS = {
@@ -148,6 +165,8 @@ const LUCIDE_ICONS = {
   linkedin: "briefcase-business",
   sudoku: "grid-3x3",
   games: "gamepad-2",
+  terminal: "square-terminal",
+  vscode: "code-2",
   kelimelik: "puzzle",
   "apple-home": "house-plug",
   "utm-remote": "monitor-up",
@@ -171,7 +190,8 @@ const CATEGORY_ICONS = {
   Sosyal: "users",
   Oyunlar: "gamepad-2",
   "Akıllı Ev": "house-plug",
-  "Uzaktan Erişim": "monitor-up"
+  "Uzaktan Erişim": "monitor-up",
+  Linux: "terminal"
 };
 
 const escapeXML = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
