@@ -150,6 +150,11 @@ const createAppCard = (app) => {
     image.src = `./icons/apps/${app.id}.svg`;
     image.alt = "";
     image.draggable = false;
+    image.addEventListener("error", () => {
+      icon.classList.remove("has-artwork");
+      image.remove();
+      icon.textContent = app.symbol;
+    });
     icon.append(image);
   } else {
     icon.textContent = app.symbol;
@@ -202,20 +207,29 @@ const createDockApp = (app) => {
   const button = document.createElement("button");
   button.className = `dock-app${hasArtwork ? " has-artwork" : ""}${running ? " running" : ""}`;
   button.type = "button";
-  button.title = running ? `${app.name} • ${formatDuration(Date.now() - since)} açık` : app.name;
+  button.title = app.name;
   button.style.cssText = iconStyles(app);
+
+  const showDockGlyph = () => {
+    button.classList.remove("has-artwork");
+    const glyph = document.createElement("span");
+    glyph.className = "dock-glyph";
+    glyph.textContent = app.symbol;
+    button.prepend(glyph);
+  };
 
   if (hasArtwork) {
     const image = document.createElement("img");
     image.src = `./icons/apps/${app.id}.svg`;
     image.alt = "";
     image.draggable = false;
+    image.addEventListener("error", () => {
+      image.remove();
+      showDockGlyph();
+    });
     button.append(image);
   } else {
-    const glyph = document.createElement("span");
-    glyph.className = "dock-glyph";
-    glyph.textContent = app.symbol;
-    button.append(glyph);
+    showDockGlyph();
   }
 
   if (running) {
