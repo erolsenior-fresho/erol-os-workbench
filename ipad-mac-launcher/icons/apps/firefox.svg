@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Firefox">
   <defs>
     <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ff8f57"/>
-      <stop offset="1" stop-color="#ef6129"/>
+      <stop stop-color="#ff9a3c"/>
+      <stop offset="1" stop-color="#e6600a"/>
     </linearGradient>
     <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fff" stop-opacity=".38"/>

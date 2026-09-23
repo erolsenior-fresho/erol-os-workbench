@@ -193,11 +193,19 @@ const saturateForLight = (hex) => (isLight(hex) ? mix(hex, "#101722", 0.35) : he
 // licensed simple-icons set. These are original macOS-style tiles, not copies of
 // the proprietary multicolour app artwork.
 const BRAND_STYLE = {
-  netflix: { bg: ["#2a1216", "#0a0507"], fg: "#e50914" },
-  youtube: { bg: ["#ffffff", "#f1f1f1"], fg: "#ff0000" },
-  "youtube-music": { bg: ["#ffffff", "#f1f1f1"], fg: "#ff0000" },
+  netflix: { bg: ["#1b1b1b", "#040404"], fg: "#e50914" },
+  youtube: { bg: ["#ff4b4b", "#e00000"], fg: "#ffffff" },
+  "youtube-music": { bg: ["#ff4b4b", "#e00000"], fg: "#ffffff" },
   spotify: { bg: ["#25de6d", "#11a049"], fg: "#08331b" },
+  whatsapp: { bg: ["#42e06f", "#12b24d"], fg: "#ffffff" },
+  telegram: { bg: ["#43bff2", "#1a91d4"], fg: "#ffffff" },
+  instagram: { bg: ["#a13bd6", "#f96d3a"], fg: "#ffffff" },
   tiktok: { bg: ["#2b2c31", "#0a0a0d"], fg: "#ffffff" },
+  twitch: { bg: ["#a06bff", "#7a3df0"], fg: "#ffffff" },
+  reddit: { bg: ["#ff6a3c", "#ff4500"], fg: "#ffffff" },
+  linkedin: { bg: ["#3a9be0", "#0a66c2"], fg: "#ffffff" },
+  dropbox: { bg: ["#3d8cff", "#0061fe"], fg: "#ffffff" },
+  firefox: { bg: ["#ff9a3c", "#e6600a"], fg: "#ffffff" },
   github: { bg: ["#3a3f46", "#0d1117"], fg: "#ffffff" },
   cursor: { bg: ["#2c3038", "#0a0b0d"], fg: "#ffffff" },
   threads: { bg: ["#2b2b2f", "#08080a"], fg: "#ffffff" },

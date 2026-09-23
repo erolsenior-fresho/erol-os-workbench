@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Instagram">
   <defs>
     <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ff1e87"/>
-      <stop offset="1" stop-color="#ef0059"/>
+      <stop stop-color="#a13bd6"/>
+      <stop offset="1" stop-color="#f96d3a"/>
     </linearGradient>
     <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fff" stop-opacity=".38"/>

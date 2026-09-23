@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Twitch">
   <defs>
     <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#af64ff"/>
-      <stop offset="1" stop-color="#8136ef"/>
+      <stop stop-color="#a06bff"/>
+      <stop offset="1" stop-color="#7a3df0"/>
     </linearGradient>
     <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fff" stop-opacity=".38"/>

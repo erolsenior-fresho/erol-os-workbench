@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Reddit">
   <defs>
     <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ff631e"/>
-      <stop offset="1" stop-color="#ef3500"/>
+      <stop stop-color="#ff6a3c"/>
+      <stop offset="1" stop-color="#ff4500"/>
     </linearGradient>
     <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fff" stop-opacity=".38"/>
