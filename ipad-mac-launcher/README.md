@@ -29,3 +29,11 @@ iPadOS, üçüncü taraf uygulamalara cihazdaki uygulamaları otomatik listeleme
 npm run icons
 npm test
 ```
+
+## iOS uygulaması / App Store
+
+Bu arayüzü iPhone + iPad için yerel bir iOS uygulaması olarak paketlemek ve App Store'a göndermek için [APP_STORE.md](APP_STORE.md) dosyasına bakın. Web varlıklarını uygulama paketine hazırlamak için:
+
+```bash
+npm run build:web
+```
