@@ -7,7 +7,7 @@ name: Deploy launcher to GitHub Pages
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, cursor/add-close-all-e7b7]
     paths:
       - "ipad-mac-launcher/**"
       - ".github/workflows/pages.yml"
