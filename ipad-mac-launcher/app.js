@@ -25,9 +25,9 @@ const elements = {
   toast: document.querySelector("#toast")
 };
 
-const loadJSON = (key, fallback) => {
+const loadJSON = (key, fallback, store = localStorage) => {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
+    const value = JSON.parse(store.getItem(key));
     return value ?? fallback;
   } catch {
     return fallback;
@@ -41,11 +41,11 @@ let editing = false;
 let toastTimer;
 
 let runningApps = new Map(
-  Object.entries(loadJSON(RUNNING_KEY, {})).map(([id, since]) => [id, Number(since)])
+  Object.entries(loadJSON(RUNNING_KEY, {}, sessionStorage)).map(([id, since]) => [id, Number(since)])
 );
 
 const saveRunning = () =>
-  localStorage.setItem(RUNNING_KEY, JSON.stringify(Object.fromEntries(runningApps)));
+  sessionStorage.setItem(RUNNING_KEY, JSON.stringify(Object.fromEntries(runningApps)));
 
 const formatDuration = (ms) => {
   const total = Math.max(0, Math.floor(ms / 1000));
