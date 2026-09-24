@@ -1,0 +1,8 @@
+{
+  "appId": "com.erolos.launcher",
+  "appName": "Erol OS",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "always"
+  }
+}
