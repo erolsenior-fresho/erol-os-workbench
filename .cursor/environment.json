@@ -1,0 +1,17 @@
+{
+  "name": "Erol OS Workbench",
+  "install": "cd ipad-mac-launcher && npm ci",
+  "terminals": [
+    {
+      "name": "ipad-launcher",
+      "command": "cd ipad-mac-launcher && python3 -m http.server 4173",
+      "description": "Serves the Erol OS iPad launcher PWA at http://localhost:4173"
+    }
+  ],
+  "ports": [
+    {
+      "name": "ipad-launcher",
+      "port": 4173
+    }
+  ]
+}
