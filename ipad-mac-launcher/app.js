@@ -2,6 +2,7 @@ import { APPS, CATEGORIES } from "./apps-data.js";
 
 const CUSTOM_APPS_KEY = "erol-os-custom-apps";
 const FAVORITES_KEY = "erol-os-favorites";
+const RUNNING_KEY = "erol-os-running";
 
 const elements = {
   appGrid: document.querySelector("#appGrid"),
@@ -24,9 +25,9 @@ const elements = {
   toast: document.querySelector("#toast")
 };
 
-const loadJSON = (key, fallback) => {
+const loadJSON = (key, fallback, store = localStorage) => {
   try {
-    const value = JSON.parse(localStorage.getItem(key));
+    const value = JSON.parse(store.getItem(key));
     return value ?? fallback;
   } catch {
     return fallback;
@@ -38,6 +39,35 @@ let favorites = new Set(loadJSON(FAVORITES_KEY, APPS.filter((app) => app.favorit
 let activeCategory = "Favoriler";
 let editing = false;
 let toastTimer;
+
+let runningApps = new Map(
+  Object.entries(loadJSON(RUNNING_KEY, {}, sessionStorage)).map(([id, since]) => [id, Number(since)])
+);
+
+const saveRunning = () =>
+  sessionStorage.setItem(RUNNING_KEY, JSON.stringify(Object.fromEntries(runningApps)));
+
+const formatDuration = (ms) => {
+  const total = Math.max(0, Math.floor(ms / 1000));
+  const hours = Math.floor(total / 3600);
+  const minutes = Math.floor((total % 3600) / 60);
+  const seconds = total % 60;
+  const pad = (value) => String(value).padStart(2, "0");
+  return hours > 0 ? `${hours}:${pad(minutes)}:${pad(seconds)}` : `${minutes}:${pad(seconds)}`;
+};
+
+const startApp = (id) => {
+  if (runningApps.has(id)) return;
+  runningApps.set(id, Date.now());
+  saveRunning();
+};
+
+const stopApp = (id, name) => {
+  if (!runningApps.delete(id)) return;
+  saveRunning();
+  renderDock();
+  showToast(`${name ?? "Uygulama"} kapatıldı.`);
+};
 
 const allApps = () => [...APPS, ...customApps];
 
@@ -86,6 +116,9 @@ const launchApp = (app) => {
   } else {
     window.location.href = app.url;
   }
+
+  startApp(app.id);
+  renderDock();
 };
 
 const toggleFavorite = (id) => {
@@ -117,6 +150,11 @@ const createAppCard = (app) => {
     image.src = `./icons/apps/${app.id}.svg`;
     image.alt = "";
     image.draggable = false;
+    image.addEventListener("error", () => {
+      icon.classList.remove("has-artwork");
+      image.remove();
+      icon.textContent = app.symbol;
+    });
     icon.append(image);
   } else {
     icon.textContent = app.symbol;
@@ -162,28 +200,80 @@ const renderCategories = () => {
   elements.categoryList.replaceChildren(...buttons);
 };
 
-const renderDock = () => {
-  const favoriteApps = allApps().filter((app) => favorites.has(app.id)).slice(0, 12);
-  const dockButtons = favoriteApps.map((app) => {
-    const button = document.createElement("button");
-    const hasArtwork = !app.custom;
-    button.className = `dock-app${hasArtwork ? " has-artwork" : ""}`;
-    button.type = "button";
-    button.title = app.name;
-    button.style.cssText = iconStyles(app);
-    if (hasArtwork) {
-      const image = document.createElement("img");
-      image.src = `./icons/apps/${app.id}.svg`;
-      image.alt = "";
-      image.draggable = false;
-      button.append(image);
-    } else {
-      button.textContent = app.symbol;
-    }
-    button.addEventListener("click", () => launchApp(app));
-    return button;
+const createDockApp = (app) => {
+  const running = runningApps.has(app.id);
+  const since = running ? runningApps.get(app.id) : 0;
+  const hasArtwork = !app.custom;
+  const button = document.createElement("button");
+  button.className = `dock-app${hasArtwork ? " has-artwork" : ""}${running ? " running" : ""}`;
+  button.type = "button";
+  button.title = app.name;
+  button.style.cssText = iconStyles(app);
+
+  const showDockGlyph = () => {
+    button.classList.remove("has-artwork");
+    const glyph = document.createElement("span");
+    glyph.className = "dock-glyph";
+    glyph.textContent = app.symbol;
+    button.prepend(glyph);
+  };
+
+  if (hasArtwork) {
+    const image = document.createElement("img");
+    image.src = `./icons/apps/${app.id}.svg`;
+    image.alt = "";
+    image.draggable = false;
+    image.addEventListener("error", () => {
+      image.remove();
+      showDockGlyph();
+    });
+    button.append(image);
+  } else {
+    showDockGlyph();
+  }
+
+  if (running) {
+    const time = document.createElement("span");
+    time.className = "dock-time";
+    time.dataset.since = String(since);
+    time.textContent = formatDuration(Date.now() - since);
+    button.append(time);
+
+    const quit = document.createElement("span");
+    quit.className = "dock-quit";
+    quit.textContent = "×";
+    quit.title = `${app.name} uygulamasını kapat`;
+    quit.addEventListener("click", (event) => {
+      event.stopPropagation();
+      stopApp(app.id, app.name);
+    });
+    button.append(quit);
+  }
+
+  button.addEventListener("click", () => launchApp(app));
+  button.addEventListener("contextmenu", (event) => {
+    if (!runningApps.has(app.id)) return;
+    event.preventDefault();
+    stopApp(app.id, app.name);
   });
-  elements.systemDock.replaceChildren(...dockButtons);
+  return button;
+};
+
+const renderDock = () => {
+  const pinned = allApps().filter((app) => favorites.has(app.id)).slice(0, 12);
+  const pinnedIds = new Set(pinned.map((app) => app.id));
+  const runningExtra = allApps().filter(
+    (app) => runningApps.has(app.id) && !pinnedIds.has(app.id)
+  );
+
+  const nodes = pinned.map(createDockApp);
+  if (runningExtra.length > 0) {
+    const separator = document.createElement("span");
+    separator.className = "dock-separator";
+    separator.setAttribute("aria-hidden", "true");
+    nodes.push(separator, ...runningExtra.map(createDockApp));
+  }
+  elements.systemDock.replaceChildren(...nodes);
 };
 
 const render = () => {
@@ -275,6 +365,14 @@ populateCategorySelect();
 render();
 updateClock();
 window.setInterval(updateClock, 30_000);
+
+const tickRunning = () => {
+  const now = Date.now();
+  for (const element of elements.systemDock.querySelectorAll(".dock-time")) {
+    element.textContent = formatDuration(now - Number(element.dataset.since));
+  }
+};
+window.setInterval(tickRunning, 1000);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));

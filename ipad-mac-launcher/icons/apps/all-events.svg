@@ -16,7 +16,7 @@
     <rect x="6" y="5" width="116" height="116" rx="28" fill="url(#bg)"/>
     <rect x="7" y="6" width="114" height="114" rx="27" fill="none" stroke="#fff" stroke-opacity=".28"/>
     <path d="M12 52C18 20 38 9 64 9s46 11 52 43c-15-8-33-12-52-12s-37 4-52 12Z" fill="url(#shine)"/>
-    <g transform="translate(28 28) scale(3)" color="#172131" stroke-width="1.8"><path d="M12.127 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v5.125" />
+    <g transform="translate(28 28) scale(3)" color="#5b8d94" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round"><path d="M12.127 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v5.125" />
   <path d="M14.62 17.8A2.25 2.25 0 1118 14.836a2.25 2.25 0 113.38 2.966l-2.626 2.856a.998.998 0 01-1.507 0z" />
   <path d="M16 2v3" />
   <path d="M3 9h18" />

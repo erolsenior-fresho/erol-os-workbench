@@ -59,7 +59,24 @@ const BRAND_ICONS = {
   rustdesk: "siRustdesk",
   teamviewer: "siTeamviewer",
   anydesk: "siAnydesk",
-  windows: "siWindows11"
+  windows: "siWindows11",
+  gimp: "siGimp",
+  inkscape: "siInkscape",
+  krita: "siKrita",
+  blender: "siBlender",
+  libreoffice: "siLibreoffice",
+  vlc: "siVlcmediaplayer",
+  "obs-studio": "siObsstudio",
+  audacity: "siAudacity",
+  kdenlive: "siKdenlive",
+  steam: "siSteam",
+  discord: "siDiscord",
+  signal: "siSignal",
+  thunderbird: "siThunderbird",
+  docker: "siDocker",
+  neovim: "siNeovim",
+  flatpak: "siFlatpak",
+  ubuntu: "siUbuntu"
 };
 
 const LUCIDE_ICONS = {
@@ -148,6 +165,8 @@ const LUCIDE_ICONS = {
   linkedin: "briefcase-business",
   sudoku: "grid-3x3",
   games: "gamepad-2",
+  terminal: "square-terminal",
+  vscode: "code-2",
   kelimelik: "puzzle",
   "apple-home": "house-plug",
   "utm-remote": "monitor-up",
@@ -171,21 +190,83 @@ const CATEGORY_ICONS = {
   Sosyal: "users",
   Oyunlar: "gamepad-2",
   "Akıllı Ev": "house-plug",
-  "Uzaktan Erişim": "monitor-up"
+  "Uzaktan Erişim": "monitor-up",
+  Linux: "terminal"
 };
 
 const escapeXML = (value) => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 
-const isLight = (hex) => {
-  const [red, green, blue] = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
-  return (red * 299 + green * 587 + blue * 114) / 1000 > 178;
+const clamp = (value) => Math.max(0, Math.min(255, Math.round(value)));
+const toRGB = (hex) => [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+const toHex = (rgb) => `#${rgb.map((value) => clamp(value).toString(16).padStart(2, "0")).join("")}`;
+const relLuma = (hex) => {
+  const [red, green, blue] = toRGB(hex);
+  return (red * 299 + green * 587 + blue * 114) / 1000;
+};
+const isLight = (hex) => relLuma(hex) > 178;
+const shift = (hex, amount) => toHex(toRGB(hex).map((value) => value + amount));
+const mix = (hex, target, ratio) => toHex(toRGB(hex).map((value, index) => value + (toRGB(target)[index] - value) * ratio));
+const saturateForLight = (hex) => (isLight(hex) ? mix(hex, "#101722", 0.35) : hex);
+
+// Authentic brand background gradients (top lighter, bottom darker) with a readable
+// glyph colour. Colours are not copyrightable; the marks come from the openly
+// licensed simple-icons set. These are original macOS-style tiles, not copies of
+// the proprietary multicolour app artwork.
+const BRAND_STYLE = {
+  netflix: { bg: ["#1b1b1b", "#040404"], fg: "#e50914" },
+  youtube: { bg: ["#ff4b4b", "#e00000"], fg: "#ffffff" },
+  "youtube-music": { bg: ["#ff4b4b", "#e00000"], fg: "#ffffff" },
+  spotify: { bg: ["#25de6d", "#11a049"], fg: "#08331b" },
+  whatsapp: { bg: ["#42e06f", "#12b24d"], fg: "#ffffff" },
+  telegram: { bg: ["#43bff2", "#1a91d4"], fg: "#ffffff" },
+  instagram: { bg: ["#a13bd6", "#f96d3a"], fg: "#ffffff" },
+  tiktok: { bg: ["#2b2c31", "#0a0a0d"], fg: "#ffffff" },
+  twitch: { bg: ["#a06bff", "#7a3df0"], fg: "#ffffff" },
+  reddit: { bg: ["#ff6a3c", "#ff4500"], fg: "#ffffff" },
+  linkedin: { bg: ["#3a9be0", "#0a66c2"], fg: "#ffffff" },
+  dropbox: { bg: ["#3d8cff", "#0061fe"], fg: "#ffffff" },
+  firefox: { bg: ["#ff9a3c", "#e6600a"], fg: "#ffffff" },
+  github: { bg: ["#3a3f46", "#0d1117"], fg: "#ffffff" },
+  cursor: { bg: ["#2c3038", "#0a0b0d"], fg: "#ffffff" },
+  threads: { bg: ["#2b2b2f", "#08080a"], fg: "#ffffff" },
+  linear: { bg: ["#3b3e48", "#15161c"], fg: "#9aa2f7" },
+  obsidian: { bg: ["#3c2c66", "#180f33"], fg: "#b18cff" },
+  notion: { bg: ["#ffffff", "#e7e7e7"], fg: "#0f0f0f" },
+  slack: { bg: ["#ffffff", "#ececf1"], fg: "#4a154b" },
+  amazon: { bg: ["#37475a", "#131a22"], fg: "#ff9900" },
+  kimi: { bg: ["#2a2d34", "#0a0b0e"], fg: "#ffffff" },
+  grok: { bg: ["#2a2d34", "#08090c"], fg: "#ffffff" },
+  "grok-bot": { bg: ["#2a2d34", "#08090c"], fg: "#ffffff" },
+  godaddy: { bg: ["#2f3033", "#0b0c0e"], fg: "#ffffff" },
+  tailscale: { bg: ["#33353a", "#0f1013"], fg: "#ffffff" },
+  pinterest: { bg: ["#e85668", "#bd081c"], fg: "#ffffff" },
+  gemini: { bg: ["#6a8bff", "#a06bff"], fg: "#ffffff" },
+  booking: { bg: ["#2f6ad0", "#00337a"], fg: "#ffffff" }
+};
+
+// Brand tiles that should keep their hand-tuned data palette (multicolour marks
+// that read better on their original light/coloured background).
+const KEEP_DATA_BG = new Set(["chrome", "google-photos", "authenticator", "canva"]);
+
+const deriveBrand = (brand) => {
+  const hex = `#${brand.hex}`;
+  const luma = relLuma(hex);
+  if (luma < 60) return { bg: [shift(hex, 46), shift(hex, 14)], fg: "#ffffff" };
+  if (luma > 214) return { bg: [shift(hex, 4), shift(hex, -26)], fg: "#16202e" };
+  return { bg: [shift(hex, 30), shift(hex, -16)], fg: "#ffffff" };
+};
+
+const brandPalette = (app, brand) => {
+  if (BRAND_STYLE[app.id]) return BRAND_STYLE[app.id];
+  if (brand && !KEEP_DATA_BG.has(app.id)) return deriveBrand(brand);
+  return null;
 };
 
 const lucideMarkup = async (name, foreground) => {
   const source = await readFile(resolve(LUCIDE, `${name}.svg`), "utf8");
   const inner = source.match(/<svg[\s\S]*?>([\s\S]*?)<\/svg>/)?.[1]?.trim();
   if (!inner) throw new Error(`Could not parse Lucide icon: ${name}`);
-  return `<g transform="translate(28 28) scale(3)" color="${foreground}" stroke-width="1.8">${inner}</g>`;
+  return `<g transform="translate(28 28) scale(3)" color="${foreground}" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round">${inner}</g>`;
 };
 
 const finderMarkup = () => `
@@ -198,25 +279,31 @@ const finderMarkup = () => `
   <path d="M47 75c9 8 25 8 34 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
 `;
 
-const iconMarkup = async (app, foreground) => {
+const iconMarkup = async (app, brand, foreground, accent) => {
   if (app.id === "files") return finderMarkup();
 
-  const brandName = BRAND_ICONS[app.id];
-  const brand = brandName ? simpleIcons[brandName] : undefined;
   if (brand) {
-    return `<path d="${brand.path}" fill="${foreground}" transform="translate(34 34) scale(2.5)"/>`;
+    return `<path d="${brand.path}" fill="${foreground}" transform="translate(33 33) scale(2.583)"/>`;
   }
 
   const lucide = LUCIDE_ICONS[app.id] ?? CATEGORY_ICONS[app.category];
-  if (lucide) return lucideMarkup(lucide, foreground);
+  if (lucide) return lucideMarkup(lucide, accent);
 
-  return `<text x="64" y="74" text-anchor="middle" fill="${foreground}" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif" font-size="35" font-weight="750" letter-spacing="-.04em">${escapeXML(app.symbol.slice(0, 3))}</text>`;
+  return `<text x="64" y="74" text-anchor="middle" fill="${accent}" font-family="-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif" font-size="35" font-weight="750" letter-spacing="-.04em">${escapeXML(app.symbol.slice(0, 3))}</text>`;
 };
 
 const buildSVG = async (app) => {
-  const [start, end] = app.colors;
-  const foreground = isLight(start) ? "#172131" : "#ffffff";
-  const mark = await iconMarkup(app, foreground);
+  const brandName = BRAND_ICONS[app.id];
+  const brand = brandName ? simpleIcons[brandName] : undefined;
+  const palette = brandPalette(app, brand);
+
+  const [start, end] = palette ? palette.bg : app.colors;
+  const foreground = palette ? palette.fg : isLight(start) ? "#172131" : "#ffffff";
+  // System/utility glyphs are single-colour line art: keep them white on dark tiles,
+  // but tint them with a saturated accent on light tiles so they read like filled
+  // iOS-style icons instead of faint outlines.
+  const accent = palette ? palette.fg : isLight(start) ? saturateForLight(end) : "#ffffff";
+  const mark = await iconMarkup(app, brand, foreground, accent);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="${escapeXML(app.name)}">
   <defs>
     <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">

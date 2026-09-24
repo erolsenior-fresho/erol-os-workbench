@@ -16,7 +16,8 @@ export const CATEGORIES = [
   { id: "Sosyal", icon: "@", color: "#ff718b" },
   { id: "Oyunlar", icon: "✣", color: "#ffcc4d" },
   { id: "Akıllı Ev", icon: "⌂", color: "#74cfff" },
-  { id: "Uzaktan Erişim", icon: "⇄", color: "#8d93ff" }
+  { id: "Uzaktan Erişim", icon: "⇄", color: "#8d93ff" },
+  { id: "Linux", icon: "🐧", color: "#f47421" }
 ];
 
 const A = (id, name, category, symbol, start, end, url = "", favorite = false) => ({
@@ -185,5 +186,25 @@ export const APPS = [
   A("rustdesk", "RustDesk", "Uzaktan Erişim", "●", "#52c1d8", "#1c8097", "https://rustdesk.com/"),
   A("utm-remote", "UTM Remote", "Uzaktan Erişim", "▣", "#50d969", "#147b2c", "https://mac.getutm.app/"),
   A("teamviewer", "TeamViewer", "Uzaktan Erişim", "↔", "#466ed7", "#17358d", "https://www.teamviewer.com/"),
-  A("anydesk", "AnyDesk", "Uzaktan Erişim", "◇", "#ff5b54", "#c62224", "https://anydesk.com/")
+  A("anydesk", "AnyDesk", "Uzaktan Erişim", "◇", "#ff5b54", "#c62224", "https://anydesk.com/"),
+
+  A("vscode", "VS Code", "Linux", "◱", "#3aa0f0", "#1b6fc2", "https://code.visualstudio.com/"),
+  A("terminal", "Terminal", "Linux", "❯", "#3a3f47", "#111318"),
+  A("gimp", "GIMP", "Linux", "◔", "#9a8d7a", "#5c5145", "https://www.gimp.org/"),
+  A("inkscape", "Inkscape", "Linux", "◆", "#3a3f47", "#0c0d10", "https://inkscape.org/"),
+  A("krita", "Krita", "Linux", "✎", "#4fb0ff", "#1f6fc0", "https://krita.org/"),
+  A("blender", "Blender", "Linux", "◉", "#ff9a3c", "#e0700a", "https://www.blender.org/"),
+  A("libreoffice", "LibreOffice", "Linux", "▤", "#3fbf3f", "#0f7a12", "https://www.libreoffice.org/"),
+  A("vlc", "VLC", "Linux", "▲", "#ffb04d", "#e07a00", "https://www.videolan.org/vlc/"),
+  A("obs-studio", "OBS Studio", "Linux", "◉", "#3a3a3e", "#131315", "https://obsproject.com/"),
+  A("audacity", "Audacity", "Linux", "≋", "#4b6bff", "#0a1f8f", "https://www.audacityteam.org/"),
+  A("kdenlive", "Kdenlive", "Linux", "▶", "#6f97d0", "#274f88", "https://kdenlive.org/"),
+  A("steam", "Steam", "Linux", "◉", "#3a4150", "#0f1622", "https://store.steampowered.com/"),
+  A("discord", "Discord", "Linux", "◔", "#7b84f5", "#4650e0", "https://discord.com/"),
+  A("signal", "Signal", "Linux", "◔", "#5b63ff", "#2a34e0", "https://signal.org/"),
+  A("thunderbird", "Thunderbird", "Linux", "✉", "#4aa0ff", "#0a6fe0", "https://www.thunderbird.net/"),
+  A("docker", "Docker", "Linux", "◫", "#4aa8f0", "#1274c8", "https://www.docker.com/"),
+  A("neovim", "Neovim", "Linux", "◆", "#6bc24a", "#2f7a1f", "https://neovim.io/"),
+  A("flatpak", "Flatpak", "Linux", "◆", "#6aa8e0", "#2f6fb0", "https://flatpak.org/"),
+  A("ubuntu", "Ubuntu", "Linux", "◉", "#ff7a4d", "#d13f14", "https://ubuntu.com/")
 ];
