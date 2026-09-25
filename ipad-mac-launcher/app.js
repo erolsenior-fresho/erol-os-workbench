@@ -1,4 +1,5 @@
 import { APPS, CATEGORIES } from "./apps-data.js";
+import { detectInstallContext, getInstallGuide } from "./install-guide.js";
 
 const CUSTOM_APPS_KEY = "erol-os-custom-apps";
 const FAVORITES_KEY = "erol-os-favorites";
@@ -18,9 +19,19 @@ const elements = {
   addButton: document.querySelector("#addButton"),
   closeAllButton: document.querySelector("#closeAllButton"),
   installButton: document.querySelector("#installButton"),
+  installButtonTitle: document.querySelector("#installButtonTitle"),
+  installButtonSubtitle: document.querySelector("#installButtonSubtitle"),
   aboutButton: document.querySelector("#aboutButton"),
   appDialog: document.querySelector("#appDialog"),
   installDialog: document.querySelector("#installDialog"),
+  installEyebrow: document.querySelector("#installEyebrow"),
+  installTitle: document.querySelector("#installTitle"),
+  installSteps: [
+    document.querySelector("#installStep1"),
+    document.querySelector("#installStep2"),
+    document.querySelector("#installStep3")
+  ],
+  installNote: document.querySelector("#installNote"),
   appForm: document.querySelector("#appForm"),
   menuClock: document.querySelector("#menuClock"),
   toast: document.querySelector("#toast")
@@ -350,6 +361,28 @@ const updateClock = () => {
   }).format(now);
 };
 
+const configureInstallGuide = () => {
+  const context = detectInstallContext({
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    maxTouchPoints: navigator.maxTouchPoints,
+    standalone:
+      window.matchMedia("(display-mode: standalone)").matches ||
+      navigator.standalone === true
+  });
+  const guide = getInstallGuide(context);
+
+  elements.installButtonTitle.textContent = guide.buttonTitle;
+  elements.installButtonSubtitle.textContent = guide.buttonSubtitle;
+  elements.installButton.hidden = guide.hideButton;
+  elements.installEyebrow.textContent = guide.eyebrow;
+  elements.installTitle.textContent = guide.title;
+  elements.installSteps.forEach((step, index) => {
+    step.textContent = guide.steps[index];
+  });
+  elements.installNote.textContent = guide.note;
+};
+
 elements.searchInput.addEventListener("input", renderApps);
 elements.addButton.addEventListener("click", () => elements.appDialog.showModal());
 elements.closeAllButton.addEventListener("click", stopAllApps);
@@ -381,6 +414,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 populateCategorySelect();
+configureInstallGuide();
 render();
 updateClock();
 window.setInterval(updateClock, 30_000);

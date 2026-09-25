@@ -13,9 +13,21 @@ Ardından `http://localhost:4173` adresini açın.
 
 ## iPad'e kurma
 
+Uygulama iPadOS 16.4 veya üzerinde Safari ya da Chrome kullanılarak kurulabilir.
+
+### Safari
+
 1. Uygulamayı HTTPS üzerinden yayınlayın ve iPad'de Safari ile açın.
-2. Paylaş menüsünden **Ana Ekrana Ekle** seçeneğini kullanın.
-3. Oluşan **Erol OS** simgesine basılı tutup iPad Dock'una sürükleyin.
+2. Araç çubuğundaki Paylaş düğmesine dokunup **Ana Ekrana Ekle** seçeneğini kullanın.
+3. **Ekle**'ye dokunun.
+
+### Chrome
+
+1. Uygulamayı iPad'de güncel Chrome ile açın.
+2. Adres çubuğunun sağındaki Paylaş düğmesine dokunup **Ana Ekrana Ekle** seçeneğini kullanın.
+3. **Ekle**'ye dokunun. Seçenek görünmüyorsa Chrome'u ve iPadOS'i güncelleyin.
+
+Oluşan **Erol OS** simgesine basılı tutup iPad Dock'una sürükleyebilirsiniz.
 
 Başlatıcı kurulduktan sonra çevrimdışı çalışır. **Düzenle** ile favoriler değiştirilebilir; **Ekle** ile yeni web veya uygulama bağlantıları eklenebilir.
 

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import { APPS, CATEGORIES } from "../apps-data.js";
+import { detectInstallContext, getInstallGuide } from "../install-guide.js";
 
 test("app identifiers are unique", () => {
   const ids = APPS.map((app) => app.id);
@@ -61,6 +62,7 @@ test("every bundled app has macOS-style SVG artwork", async () => {
 
 test("manifest references generated install icons", async () => {
   const manifest = JSON.parse(await readFile(new URL("../manifest.webmanifest", import.meta.url), "utf8"));
+  assert.equal(manifest.id, "./");
   assert.equal(manifest.display, "standalone");
   assert.deepEqual(manifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
 
@@ -72,9 +74,49 @@ test("manifest references generated install icons", async () => {
 
 test("service worker caches the complete app shell", async () => {
   const worker = await readFile(new URL("../sw.js", import.meta.url), "utf8");
-  for (const file of ["index.html", "styles.css", "app.js", "apps-data.js", "manifest.webmanifest"]) {
+  for (const file of [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "apps-data.js",
+    "install-guide.js",
+    "manifest.webmanifest"
+  ]) {
     assert.ok(worker.includes(file), `${file} is missing from the app shell`);
   }
+});
+
+test("iPad Chrome receives Chrome-specific installation steps", () => {
+  const context = detectInstallContext({
+    userAgent:
+      "Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 CriOS/123.0.0.0 Mobile/15E148 Safari/604.1",
+    platform: "iPad",
+    maxTouchPoints: 5
+  });
+  const guide = getInstallGuide(context);
+
+  assert.equal(context.isiPadOS, true);
+  assert.equal(context.isChrome, true);
+  assert.equal(context.isSafari, false);
+  assert.equal(guide.eyebrow, "IPAD CHROME KURULUMU");
+  assert.match(guide.steps.join(" "), /Ana Ekrana Ekle/);
+});
+
+test("desktop-class iPad detection uses touch capability", () => {
+  const context = detectInstallContext({
+    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) CriOS/123.0.0.0",
+    platform: "MacIntel",
+    maxTouchPoints: 5
+  });
+
+  assert.equal(context.isiPadOS, true);
+  assert.equal(context.isChrome, true);
+});
+
+test("standalone installation state hides the install card", () => {
+  const guide = getInstallGuide(detectInstallContext({ standalone: true }));
+  assert.equal(guide.hideButton, true);
+  assert.equal(guide.eyebrow, "KURULUM TAMAM");
 });
 
 test("running apps can be closed together from the iOS-friendly control", async () => {

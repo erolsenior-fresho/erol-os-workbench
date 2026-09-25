@@ -12,6 +12,7 @@ const ASSETS = [
   "styles.css",
   "app.js",
   "apps-data.js",
+  "install-guide.js",
   "sw.js",
   "manifest.webmanifest",
   "icons"

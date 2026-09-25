@@ -371,6 +371,10 @@ kbd {
   background: rgba(48, 121, 226, 0.18);
 }
 
+.install-card[hidden] {
+  display: none;
+}
+
 .install-icon {
   width: 30px;
   height: 30px;

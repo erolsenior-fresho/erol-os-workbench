@@ -3,6 +3,7 @@
   "short_name": "Erol OS",
   "description": "iPad için macOS tarzı uygulama klasörü ve başlatıcı.",
   "lang": "tr",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
