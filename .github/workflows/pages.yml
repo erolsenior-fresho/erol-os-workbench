@@ -1,0 +1,57 @@
+name: Deploy launcher to GitHub Pages
+
+# GitHub Pages requires a public repository (or a paid plan for private Pages).
+# One-time setup: repo Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
+# Then run this workflow (Actions tab -> Run workflow) or push to main.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, cursor/add-close-all-e7b7]
+    paths:
+      - "ipad-mac-launcher/**"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build web bundle
+        working-directory: ipad-mac-launcher
+        run: |
+          npm ci
+          npm run build:web
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ipad-mac-launcher/www
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

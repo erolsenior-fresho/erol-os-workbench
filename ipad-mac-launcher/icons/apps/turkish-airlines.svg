@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Turkish Airlines">
+  <defs>
+    <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e5282a"/>
+      <stop offset="1" stop-color="#b70000"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".38"/>
+      <stop offset=".72" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-15%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="6" y="5" width="116" height="116" rx="28" fill="url(#bg)"/>
+    <rect x="7" y="6" width="114" height="114" rx="27" fill="none" stroke="#fff" stroke-opacity=".28"/>
+    <path d="M12 52C18 20 38 9 64 9s46 11 52 43c-15-8-33-12-52-12s-37 4-52 12Z" fill="url(#shine)"/>
+    <path d="M.168 13.988c.272 1.623.86 3.115 1.69 4.423 3.095-.863 5.817-2.495 6.785-6.132 1.065-4.003-.15-8.199-3.057-10.422C1.626 4.364-.657 9.077.168 13.988m23.664-3.975c1.098 6.534-3.308 12.722-9.844 13.819-1.1.185-2.19.214-3.245.103a12.023 12.023 0 0 1-8.46-4.892l19.428-5.57c.279-.08.207-.349-.024-.333l-8.145.569c1.148-1.108 2.021-2.467 1.915-4.345-.214-3.043-3.311-6.013-9.071-7.967a12.016 12.016 0 0 1 6.87-1.333c5.228.548 9.663 4.512 10.576 9.95" fill="#ffffff" transform="translate(33 33) scale(2.583)"/>
+  </g>
+</svg>

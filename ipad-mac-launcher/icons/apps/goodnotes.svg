@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Goodnotes">
+  <defs>
+    <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c4e7ee"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".38"/>
+      <stop offset=".72" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-15%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="6" y="5" width="116" height="116" rx="28" fill="url(#bg)"/>
+    <rect x="7" y="6" width="114" height="114" rx="27" fill="none" stroke="#fff" stroke-opacity=".28"/>
+    <path d="M12 52C18 20 38 9 64 9s46 11 52 43c-15-8-33-12-52-12s-37 4-52 12Z" fill="url(#shine)"/>
+    <g transform="translate(28 28) scale(3)" color="#859ea7" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4" />
+  <path d="M2 6h4" />
+  <path d="M2 10h4" />
+  <path d="M2 14h4" />
+  <path d="M2 18h4" />
+  <path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z" /></g>
+  </g>
+</svg>

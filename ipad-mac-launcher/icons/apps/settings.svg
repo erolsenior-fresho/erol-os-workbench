@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ayarlar">
+  <defs>
+    <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b5bdc9"/>
+      <stop offset="1" stop-color="#68717e"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".38"/>
+      <stop offset=".72" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-15%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="6" y="5" width="116" height="116" rx="28" fill="url(#bg)"/>
+    <rect x="7" y="6" width="114" height="114" rx="27" fill="none" stroke="#fff" stroke-opacity=".28"/>
+    <path d="M12 52C18 20 38 9 64 9s46 11 52 43c-15-8-33-12-52-12s-37 4-52 12Z" fill="url(#shine)"/>
+    <g transform="translate(28 28) scale(3)" color="#68717e" stroke-width="2.05" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+  <circle cx="12" cy="12" r="3" /></g>
+  </g>
+</svg>

@@ -17,3 +17,9 @@ outputs/
 *_patch_work
 agent-bench/
 deep-swe/
+
+# Capacitor / iOS packaging
+ipad-mac-launcher/www/
+ipad-mac-launcher/ios/App/Pods/
+ipad-mac-launcher/ios/App/build/
+ipad-mac-launcher/ios/DerivedData/

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Netflix">
+  <defs>
+    <linearGradient id="bg" x1="18" y1="12" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1b1b1b"/>
+      <stop offset="1" stop-color="#040404"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="64" y1="7" x2="64" y2="75" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff" stop-opacity=".38"/>
+      <stop offset=".72" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-15%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000" flood-opacity=".3"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="6" y="5" width="116" height="116" rx="28" fill="url(#bg)"/>
+    <rect x="7" y="6" width="114" height="114" rx="27" fill="none" stroke="#fff" stroke-opacity=".28"/>
+    <path d="M12 52C18 20 38 9 64 9s46 11 52 43c-15-8-33-12-52-12s-37 4-52 12Z" fill="url(#shine)"/>
+    <path d="m5.398 0 8.348 23.602c2.346.059 4.856.398 4.856.398L10.113 0H5.398zm8.489 0v9.172l4.715 13.33V0h-4.715zM5.398 1.5V24c1.873-.225 2.81-.312 4.715-.398V14.83L5.398 1.5z" fill="#e50914" transform="translate(33 33) scale(2.583)"/>
+  </g>
+</svg>
