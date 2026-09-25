@@ -25,6 +25,19 @@ test("app records contain renderable icon data", () => {
   }
 });
 
+test("every bundled app has a usable launch destination", () => {
+  for (const app of APPS) {
+    assert.match(app.url, /^[a-z][a-z0-9+.-]*:/i, `${app.name} needs a valid URL`);
+    if (app.storeFallback) {
+      assert.match(
+        app.url,
+        /^itms-apps:\/\/search\.itunes\.apple\.com\/.+[?&]term=/,
+        `${app.name} needs an App Store fallback`
+      );
+    }
+  }
+});
+
 test("default Dock fits the twelve-item launcher limit", () => {
   const dockApps = APPS.filter((app) => app.favorite);
   assert.ok(dockApps.length > 0);

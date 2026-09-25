@@ -116,15 +116,15 @@ const launchApp = (app) => {
     return;
   }
 
-  if (!app.url) {
-    showToast(`${app.name} için bağlantı eklenmesi gerekiyor.`);
-    return;
-  }
-
   if (/^https?:/i.test(app.url)) {
     window.open(app.url, "_blank", "noopener,noreferrer");
   } else {
     window.location.href = app.url;
+  }
+
+  if (app.storeFallback) {
+    showToast(`${app.name} App Store’da aranıyor.`);
+    return;
   }
 
   startApp(app.id);
@@ -148,7 +148,9 @@ const createAppCard = (app) => {
   card.className = "app-card";
   card.type = "button";
   card.role = "listitem";
-  card.title = app.url ? `${app.name} uygulamasını aç` : `${app.name} bağlantısını düzenle`;
+  card.title = app.storeFallback
+    ? `${app.name} uygulamasını App Store’da ara`
+    : `${app.name} uygulamasını aç`;
   card.innerHTML = `
     <span class="favorite-toggle" aria-hidden="true">${favorites.has(app.id) ? "★" : "☆"}</span>
     <span class="app-icon${hasArtwork ? " has-artwork" : ""}" style="${iconStyles(app)}"></span>

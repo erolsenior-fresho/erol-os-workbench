@@ -21,7 +21,7 @@ Başlatıcı kurulduktan sonra çevrimdışı çalışır. **Düzenle** ile favo
 
 ## Teknik sınır
 
-iPadOS, üçüncü taraf uygulamalara cihazdaki uygulamaları otomatik listeleme, sistem Dock'unu değiştirme veya başka uygulamaların işlemlerini sonlandırma yetkisi vermez. Bu nedenle başlatıcı önceden tanımlı Universal Link'leri, desteklenen URL şemalarını ve kullanıcının eklediği bağlantıları kullanır. Bir uygulama URL şeması sağlamıyorsa başlatıcı uygulamanın web sürümünü açar veya bağlantı eklenmesi gerektiğini bildirir. **Tümünü Kapat** düğmesi gerçek iOS işlemlerini sonlandırmak yerine Erol OS'un oturum içindeki çalışan uygulama listesini temizler.
+iPadOS, üçüncü taraf uygulamalara cihazdaki uygulamaları otomatik listeleme, sistem Dock'unu değiştirme veya başka uygulamaların işlemlerini sonlandırma yetkisi vermez. Bu nedenle başlatıcı önceden tanımlı Universal Link'leri, desteklenen URL şemalarını ve kullanıcının eklediği bağlantıları kullanır. Bir uygulamanın güvenilir web bağlantısı veya URL şeması yoksa simge, boşa düşmek yerine uygulamayı Türkiye App Store'da arar. **Tümünü Kapat** düğmesi gerçek iOS işlemlerini sonlandırmak yerine Erol OS'un oturum içindeki çalışan uygulama listesini temizler.
 
 ## Test
 

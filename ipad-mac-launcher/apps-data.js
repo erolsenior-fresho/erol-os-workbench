@@ -20,15 +20,22 @@ export const CATEGORIES = [
   { id: "Linux", icon: "🐧", color: "#f47421" }
 ];
 
-const A = (id, name, category, symbol, start, end, url = "", favorite = false) => ({
-  id,
-  name,
-  category,
-  symbol,
-  colors: [start, end],
-  url,
-  favorite
-});
+const appStoreSearchUrl = (name) =>
+  `itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=${encodeURIComponent(name)}`;
+
+const A = (id, name, category, symbol, start, end, url = "", favorite = false) => {
+  const storeFallback = url.length === 0;
+  return {
+    id,
+    name,
+    category,
+    symbol,
+    colors: [start, end],
+    url: storeFallback ? appStoreSearchUrl(name) : url,
+    favorite,
+    storeFallback
+  };
+};
 
 export const APPS = [
   A("files", "Dosyalar", "Sistem", "▰", "#52baff", "#0877dc", "shareddocuments://", true),
