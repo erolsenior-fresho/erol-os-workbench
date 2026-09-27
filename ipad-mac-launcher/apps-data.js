@@ -20,22 +20,15 @@ export const CATEGORIES = [
   { id: "Linux", icon: "🐧", color: "#f47421" }
 ];
 
-const appStoreSearchUrl = (name) =>
-  `itms-apps://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?media=software&term=${encodeURIComponent(name)}`;
-
-const A = (id, name, category, symbol, start, end, url = "", favorite = false) => {
-  const storeFallback = url.length === 0;
-  return {
-    id,
-    name,
-    category,
-    symbol,
-    colors: [start, end],
-    url: storeFallback ? appStoreSearchUrl(name) : url,
-    favorite,
-    storeFallback
-  };
-};
+const A = (id, name, category, symbol, start, end, url = "", favorite = false) => ({
+  id,
+  name,
+  category,
+  symbol,
+  colors: [start, end],
+  url,
+  favorite
+});
 
 export const APPS = [
   A("files", "Dosyalar", "Sistem", "▰", "#52baff", "#0877dc", "shareddocuments://", true),
@@ -103,7 +96,7 @@ export const APPS = [
 
   A("apple-maps", "Harita", "Haritalar", "⌖", "#7ada8d", "#4d88ee", "https://maps.apple.com/"),
   A("google-maps", "Google Maps", "Haritalar", "⌖", "#ffffff", "#dfe9f2", "https://maps.google.com/"),
-  A("waze", "Waze", "Haritalar", "☺", "#86e2ff", "#35add5", "https://www.waze.com/live-map/"),
+  A("waze", "Waze", "Haritalar", "☺", "#86e2ff", "#35add5", "https://waze.com/ul"),
   A("yandex-navi", "Yandex Navi", "Haritalar", "➤", "#fff09a", "#e6b72f", "https://yandex.com/maps/"),
   A("yandex-maps", "Yandex Maps", "Haritalar", "●", "#ffffff", "#efefef", "https://yandex.com/maps/"),
   A("radar-map", "Radar Haritası", "Haritalar", "⌾", "#9dd7f0", "#2f7ca4"),
