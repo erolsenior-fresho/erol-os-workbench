@@ -78,7 +78,7 @@ const stopApp = (id, name) => {
   if (!runningApps.delete(id)) return;
   saveRunning();
   renderDock();
-  showToast(`${name ?? "Uygulama"} kapatıldı.`);
+  showToast(`${name ?? "Bağlantı"} oturum listesinden çıkarıldı.`);
 };
 
 const stopAllApps = () => {
@@ -87,7 +87,7 @@ const stopAllApps = () => {
   runningApps.clear();
   saveRunning();
   renderDock();
-  showToast(`${count} uygulama kapatıldı.`);
+  showToast(`${count} bağlantı oturum listesinden çıkarıldı.`);
 };
 
 const allApps = () => [...APPS, ...customApps];
@@ -127,15 +127,15 @@ const launchApp = (app) => {
     return;
   }
 
+  if (!app.url) {
+    showToast(`${app.name} için bağlantı eklenmesi gerekiyor.`);
+    return;
+  }
+
   if (/^https?:/i.test(app.url)) {
     window.open(app.url, "_blank", "noopener,noreferrer");
   } else {
     window.location.href = app.url;
-  }
-
-  if (app.storeFallback) {
-    showToast(`${app.name} App Store’da aranıyor.`);
-    return;
   }
 
   startApp(app.id);
@@ -159,9 +159,7 @@ const createAppCard = (app) => {
   card.className = "app-card";
   card.type = "button";
   card.role = "listitem";
-  card.title = app.storeFallback
-    ? `${app.name} uygulamasını App Store’da ara`
-    : `${app.name} uygulamasını aç`;
+  card.title = app.url ? `${app.name} bağlantısını aç` : `${app.name} için bağlantı gerekli`;
   card.innerHTML = `
     <span class="favorite-toggle" aria-hidden="true">${favorites.has(app.id) ? "★" : "☆"}</span>
     <span class="app-icon${hasArtwork ? " has-artwork" : ""}" style="${iconStyles(app)}"></span>
@@ -230,7 +228,7 @@ const createDockApp = (app) => {
   const button = document.createElement("button");
   button.className = `dock-app${hasArtwork ? " has-artwork" : ""}${running ? " running" : ""}`;
   button.type = "button";
-  button.title = app.name;
+  button.title = app.url ? `${app.name} bağlantısını aç` : `${app.name} için bağlantı gerekli`;
   button.style.cssText = iconStyles(app);
 
   const showDockGlyph = () => {
@@ -256,16 +254,18 @@ const createDockApp = (app) => {
   }
 
   if (running) {
+    button.title = `${app.name}: bu oturumda açıldı; dış uygulama durumu bilinmiyor`;
     const time = document.createElement("span");
     time.className = "dock-time";
     time.dataset.since = String(since);
+    time.title = "Bağlantının açılmasından beri geçen süre";
     time.textContent = formatDuration(Date.now() - since);
     button.append(time);
 
     const quit = document.createElement("span");
     quit.className = "dock-quit";
     quit.textContent = "×";
-    quit.title = `${app.name} uygulamasını kapat`;
+    quit.title = `${app.name} bağlantısını oturum listesinden çıkar`;
     quit.addEventListener("click", (event) => {
       event.stopPropagation();
       stopApp(app.id, app.name);
@@ -298,10 +298,10 @@ const renderDock = () => {
   }
   elements.systemDock.replaceChildren(...nodes);
   elements.closeAllButton.hidden = runningApps.size === 0;
-  elements.closeAllButton.textContent = `Tümünü Kapat (${runningApps.size})`;
+  elements.closeAllButton.textContent = `Listeyi Temizle (${runningApps.size})`;
   elements.closeAllButton.setAttribute(
     "aria-label",
-    `${runningApps.size} çalışan uygulamanın tümünü kapat`
+    `${runningApps.size} açılan bağlantıyı oturum listesinden temizle`
   );
 };
 
