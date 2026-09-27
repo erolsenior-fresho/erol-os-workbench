@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
+import { runInNewContext } from "node:vm";
 import { APPS, CATEGORIES } from "../apps-data.js";
 import { detectInstallContext, getInstallGuide } from "../install-guide.js";
 
@@ -26,17 +27,15 @@ test("app records contain renderable icon data", () => {
   }
 });
 
-test("every bundled app has a usable launch destination", () => {
+test("bundled destinations do not disguise missing links as App Store search", () => {
   for (const app of APPS) {
-    assert.match(app.url, /^[a-z][a-z0-9+.-]*:/i, `${app.name} needs a valid URL`);
-    if (app.storeFallback) {
-      assert.match(
-        app.url,
-        /^itms-apps:\/\/search\.itunes\.apple\.com\/.+[?&]term=/,
-        `${app.name} needs an App Store fallback`
-      );
-    }
+    if (app.url) assert.match(app.url, /^[a-z][a-z0-9+.-]*:/i, `${app.name} needs a valid URL`);
+    assert.doesNotMatch(app.url, /^itms-apps:\/\/search\.itunes\.apple\.com/i);
   }
+});
+
+test("Waze uses its documented mobile deep link with a web fallback", () => {
+  assert.equal(APPS.find((app) => app.id === "waze")?.url, "https://waze.com/ul");
 });
 
 test("default Dock fits the twelve-item launcher limit", () => {
@@ -84,6 +83,47 @@ test("service worker caches the complete app shell", async () => {
   ]) {
     assert.ok(worker.includes(file), `${file} is missing from the app shell`);
   }
+  assert.match(worker, /new Request\(url, \{ cache: "reload" \}\)/);
+  assert.doesNotMatch(worker, /skipWaiting\(\)|clients\.claim\(\)/);
+});
+
+test("service worker stages a fresh shell before removing the previous cache", async () => {
+  const script = await readFile(new URL("../sw.js", import.meta.url), "utf8");
+  const handlers = new Map();
+  const stored = new Map([["erol-os-launcher-v9", ["old shell"]]]);
+  const cacheApi = {
+    open: async (name) => ({
+      addAll: async (requests) => stored.set(name, [
+        ...(stored.get(name) ?? []),
+        ...requests.map((request) => request.url)
+      ])
+    }),
+    keys: async () => [...stored.keys()],
+    delete: async (name) => stored.delete(name)
+  };
+  runInNewContext(script, {
+    self: { addEventListener: (name, handler) => handlers.set(name, handler) },
+    caches: cacheApi,
+    Request: class {
+      constructor(url, options) {
+        assert.equal(options.cache, "reload");
+        this.url = url;
+      }
+    },
+    fetch: async (_url, options) => {
+      assert.equal(options.cache, "reload");
+      return { json: async () => ["./icons/apps/waze.svg"] };
+    }
+  });
+  let pending;
+  handlers.get("install")({ waitUntil: (promise) => { pending = promise; } });
+  await pending;
+  assert.ok(stored.has("erol-os-launcher-v9"));
+  assert.ok(stored.get("erol-os-launcher-v12").includes("./install-guide.js"));
+  assert.ok(stored.get("erol-os-launcher-v12").includes("./icons/apps/waze.svg"));
+  handlers.get("activate")({ waitUntil: (promise) => { pending = promise; } });
+  await pending;
+  assert.ok(!stored.has("erol-os-launcher-v9"));
 });
 
 test("iPad Chrome receives Chrome-specific installation steps", () => {
@@ -128,4 +168,7 @@ test("running apps can be closed together from the iOS-friendly control", async 
   assert.match(markup, /id="closeAllButton"/);
   assert.match(script, /runningApps\.clear\(\)/);
   assert.match(script, /closeAllButton\.addEventListener\("click", stopAllApps\)/);
+  assert.match(script, /Listeyi Temizle/);
+  assert.match(script, /if \(!app\.url\)/);
+  assert.doesNotMatch(script, /App Store’da aranıyor/);
 });
