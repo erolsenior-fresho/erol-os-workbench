@@ -1,4 +1,4 @@
-const CACHE_NAME = "erol-os-launcher-v11";
+const CACHE_NAME = "erol-os-launcher-v12";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -16,20 +16,18 @@ const APP_SHELL = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
-      await cache.addAll(APP_SHELL);
-      const response = await fetch("./icons/apps/manifest.json");
+      await cache.addAll(APP_SHELL.map((url) => new Request(url, { cache: "reload" })));
+      const response = await fetch("./icons/apps/manifest.json", { cache: "reload" });
       const appIcons = await response.json();
-      await cache.addAll(appIcons);
+      await cache.addAll(appIcons.map((url) => new Request(url, { cache: "reload" })));
     })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
-      .then(() => self.clients.claim())
   );
 });
 
