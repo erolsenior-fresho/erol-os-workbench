@@ -16,7 +16,6 @@ const elements = {
   systemDock: document.querySelector("#systemDock"),
   editButton: document.querySelector("#editButton"),
   addButton: document.querySelector("#addButton"),
-  closeAllButton: document.querySelector("#closeAllButton"),
   installButton: document.querySelector("#installButton"),
   aboutButton: document.querySelector("#aboutButton"),
   appDialog: document.querySelector("#appDialog"),
@@ -68,15 +67,6 @@ const stopApp = (id, name) => {
   saveRunning();
   renderDock();
   showToast(`${name ?? "Uygulama"} kapatıldı.`);
-};
-
-const stopAllApps = () => {
-  const count = runningApps.size;
-  if (count === 0) return;
-  runningApps.clear();
-  saveRunning();
-  renderDock();
-  showToast(`${count} uygulama kapatıldı.`);
 };
 
 const allApps = () => [...APPS, ...customApps];
@@ -284,12 +274,6 @@ const renderDock = () => {
     nodes.push(separator, ...runningExtra.map(createDockApp));
   }
   elements.systemDock.replaceChildren(...nodes);
-  elements.closeAllButton.hidden = runningApps.size === 0;
-  elements.closeAllButton.textContent = `Tümünü Kapat (${runningApps.size})`;
-  elements.closeAllButton.setAttribute(
-    "aria-label",
-    `${runningApps.size} çalışan uygulamanın tümünü kapat`
-  );
 };
 
 const render = () => {
@@ -350,7 +334,6 @@ const updateClock = () => {
 
 elements.searchInput.addEventListener("input", renderApps);
 elements.addButton.addEventListener("click", () => elements.appDialog.showModal());
-elements.closeAllButton.addEventListener("click", stopAllApps);
 elements.installButton.addEventListener("click", () => elements.installDialog.showModal());
 elements.aboutButton.addEventListener("click", () => elements.installDialog.showModal());
 

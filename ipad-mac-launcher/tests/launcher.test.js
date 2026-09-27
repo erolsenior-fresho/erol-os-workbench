@@ -64,13 +64,3 @@ test("service worker caches the complete app shell", async () => {
   }
 });
 
-test("running apps can be closed together from the iOS-friendly control", async () => {
-  const [markup, script] = await Promise.all([
-    readFile(new URL("../index.html", import.meta.url), "utf8"),
-    readFile(new URL("../app.js", import.meta.url), "utf8")
-  ]);
-
-  assert.match(markup, /id="closeAllButton"/);
-  assert.match(script, /runningApps\.clear\(\)/);
-  assert.match(script, /closeAllButton\.addEventListener\("click", stopAllApps\)/);
-});

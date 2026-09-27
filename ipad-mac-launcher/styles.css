@@ -428,32 +428,6 @@ kbd {
   font-size: 12px;
 }
 
-.close-all-button {
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid rgba(255, 116, 112, 0.42);
-  border-radius: 9px;
-  background: rgba(255, 69, 64, 0.13);
-  color: #ffaaa7;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.close-all-button:hover {
-  background: rgba(255, 69, 64, 0.22);
-}
-
-.close-all-button:focus-visible {
-  outline: 2px solid #ff8d89;
-  outline-offset: 2px;
-}
-
-.close-all-button[hidden] {
-  display: none;
-}
-
 .app-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
@@ -978,11 +952,6 @@ body.editing .app-icon {
 
   .content-heading-actions .result-count {
     display: none;
-  }
-
-  .close-all-button {
-    min-height: 36px;
-    padding-inline: 10px;
   }
 
   .app-grid {
