@@ -7,7 +7,7 @@
   --muted: rgba(239, 245, 255, 0.58);
   --text: #f6f8fd;
   --accent: #7db5ff;
-  --sidebar-width: 220px;
+  --sidebar-width: 196px;
 }
 
 * {
@@ -279,7 +279,7 @@ kbd {
 
 .sidebar {
   min-height: 0;
-  padding: 17px 12px;
+  padding: 10px 8px 12px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--line);
@@ -303,19 +303,46 @@ kbd {
 #categoryList {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 8px;
+}
+
+.category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.category-group:not(.untitled) {
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.category-group-label {
+  margin: 0;
+  padding: 0 8px 4px;
+  color: rgba(224, 234, 250, 0.72);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.category-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
 .category-button {
   width: 100%;
-  min-height: 34px;
-  padding: 6px 9px;
+  min-height: 28px;
+  padding: 4px 8px;
   display: grid;
-  grid-template-columns: 24px 1fr auto;
+  grid-template-columns: 20px 1fr auto;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   border: 0;
-  border-radius: 7px;
+  border-radius: 6px;
   background: transparent;
   text-align: left;
   cursor: pointer;
@@ -331,12 +358,12 @@ kbd {
 }
 
 .category-icon {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
   display: grid;
   place-items: center;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--category-color), transparent 78%);
+  border-radius: 0;
+  background: transparent;
   color: var(--category-color);
   font-size: 12px;
 }
@@ -345,7 +372,7 @@ kbd {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 12.5px;
 }
 
 .category-count {
@@ -930,7 +957,22 @@ body.editing .app-icon {
 
   #categoryList {
     flex-direction: row;
+    align-items: flex-end;
+    gap: 14px;
     min-width: max-content;
+  }
+
+  .category-group {
+    flex-direction: column;
+  }
+
+  .category-group-items {
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .category-group-label {
+    padding: 0 4px 3px;
   }
 
   .category-button {

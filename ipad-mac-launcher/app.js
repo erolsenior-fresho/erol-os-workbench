@@ -1,4 +1,4 @@
-import { APPS, CATEGORIES } from "./apps-data.js";
+import { APPS, CATEGORIES, CATEGORY_GROUPS } from "./apps-data.js";
 
 const CUSTOM_APPS_KEY = "erol-os-custom-apps";
 const FAVORITES_KEY = "erol-os-favorites";
@@ -171,33 +171,49 @@ const renderApps = () => {
   elements.emptyState.hidden = visibleApps.length > 0;
 };
 
+const createCategoryButton = (category, counts) => {
+  const button = document.createElement("button");
+  const count = category.id === "Favoriler" ? favorites.size : (counts.get(category.id) ?? 0);
+  button.type = "button";
+  button.className = `category-button${activeCategory === category.id ? " active" : ""}`;
+  button.style.setProperty("--category-color", category.color);
+  button.innerHTML = `
+    <span class="category-icon">${category.icon}</span>
+    <span class="category-name"></span>
+    <span class="category-count">${count}</span>
+  `;
+  button.querySelector(".category-name").textContent = category.id;
+  button.addEventListener("click", () => {
+    activeCategory = category.id;
+    elements.searchInput.value = "";
+    render();
+  });
+  return button;
+};
+
 const renderCategories = () => {
   const counts = allApps().reduce((map, app) => {
     map.set(app.category, (map.get(app.category) ?? 0) + 1);
     return map;
   }, new Map());
 
-  const buttons = CATEGORIES.map((category) => {
-    const button = document.createElement("button");
-    const count = category.id === "Favoriler" ? favorites.size : (counts.get(category.id) ?? 0);
-    button.type = "button";
-    button.className = `category-button${activeCategory === category.id ? " active" : ""}`;
-    button.style.setProperty("--category-color", category.color);
-    button.innerHTML = `
-      <span class="category-icon">${category.icon}</span>
-      <span class="category-name"></span>
-      <span class="category-count">${count}</span>
-    `;
-    button.querySelector(".category-name").textContent = category.id;
-    button.addEventListener("click", () => {
-      activeCategory = category.id;
-      elements.searchInput.value = "";
-      render();
-    });
-    return button;
+  const groups = CATEGORY_GROUPS.map((group) => {
+    const section = document.createElement("section");
+    section.className = `category-group${group.label ? "" : " untitled"}`;
+    if (group.label) {
+      const heading = document.createElement("h2");
+      heading.className = "category-group-label";
+      heading.textContent = group.label;
+      section.append(heading);
+    }
+    const items = document.createElement("div");
+    items.className = "category-group-items";
+    items.append(...group.categories.map((category) => createCategoryButton(category, counts)));
+    section.append(items);
+    return section;
   });
 
-  elements.categoryList.replaceChildren(...buttons);
+  elements.categoryList.replaceChildren(...groups);
 };
 
 const createDockApp = (app) => {
