@@ -2,13 +2,22 @@
 # Homebrew olmadan Intel Mac (macOS 13 Ventura) üzerine Docker kurulumu:
 #   Lima + Colima  -> GitHub release binary'leri
 #   docker CLI     -> download.docker.com static binary
-# Hepsi /usr/local altına kurulur. Lima'nın son sürümü çalışmazsa bir önceki sürüme iner.
+# Hepsi /usr/local altına kurulur.
+#
+# Sürümler Ventura + Intel için sabit:
+#   - Colima 0.10.x disk imajını .raw.gz olarak açıyor ve Ventura'da bu adımda düşüyor;
+#     0.9.1 hâlâ qcow2 (Ubuntu 24.04) imaj kullanıyor.
+#   - Lima 2.x ve sonrası Colima 0.9.1'den yeni; aynı dönemin 1.2.x serisi kullanılıyor.
+#     Birincisi çalışmazsa bir önceki sürüme iner.
+# Başka sürüm denemek için:  COLIMA_TAG=v0.9.0 LIMA_TAGS="v1.2.1 v1.1.1" bash ...
 #
 # Kullanım:  bash install-docker-colima-ventura.sh
 set -euo pipefail
 
 PREFIX=/usr/local
 ARCH=x86_64
+COLIMA_TAG=${COLIMA_TAG:-v0.9.1}
+read -r -a LIMA_TAGS <<< "${LIMA_TAGS:-v1.2.3 v1.2.2}"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
@@ -26,12 +35,6 @@ log "macOS $OS_VER (Intel) tespit edildi"
 sudo -v   # şifreyi baştan bir kez sor
 sudo mkdir -p "$PREFIX/bin" "$PREFIX/share"
 
-# GitHub'dan stable (prerelease olmayan) release tag'lerini, yeniden eskiye listeler
-stable_tags() {
-  curl -fsSL "https://api.github.com/repos/$1/releases?per_page=15" \
-    | awk -F'"' '/"tag_name":/{t=$4} /"prerelease": *false/{if(t!="")print t; t=""} /"prerelease": *true/{t=""}'
-}
-
 # --- 1) docker CLI -----------------------------------------------------------
 log "docker CLI (static) kuruluyor"
 DOCKER_TGZ=$(curl -fsSL "https://download.docker.com/mac/static/stable/$ARCH/" \
@@ -43,9 +46,7 @@ sudo install -m 0755 "$TMP/docker/docker" "$PREFIX/bin/docker"
 docker --version
 
 # --- 2) Colima ---------------------------------------------------------------
-log "Colima kuruluyor"
-COLIMA_TAG=$(stable_tags abiosoft/colima | head -1)
-[[ -n "$COLIMA_TAG" ]] || die "Colima sürümü alınamadı (GitHub API rate limit olabilir)"
+log "Colima $COLIMA_TAG kuruluyor"
 curl -fL# "https://github.com/abiosoft/colima/releases/download/$COLIMA_TAG/colima-Darwin-$ARCH" -o "$TMP/colima"
 sudo install -m 0755 "$TMP/colima" "$PREFIX/bin/colima"
 colima version
@@ -67,16 +68,16 @@ start_colima() {
   colima start --vm-type vz --cpu 2 --memory 4
 }
 
-LIMA_TAGS=()
-while IFS= read -r t; do LIMA_TAGS+=("$t"); done < <(stable_tags lima-vm/lima | head -2)
-[[ ${#LIMA_TAGS[@]} -ge 1 ]] || die "Lima sürümleri alınamadı (GitHub API rate limit olabilir)"
+# Önceki denemelerden kalan VM ve yarım/bozuk imaj önbelleğini temizle
+colima delete -f >/dev/null 2>&1 || true
+rm -rf "$HOME/Library/Caches/colima" "$HOME/Library/Caches/lima"
 
 OK=0
 for tag in "${LIMA_TAGS[@]}"; do
   if install_lima "$tag" && start_colima; then
     OK=1; LIMA_OK_TAG=$tag; break
   fi
-  warn "Lima $tag Ventura'da çalışmadı, bir önceki sürüme iniliyor..."
+  warn "Lima $tag ile colima başlamadı, sıradaki sürüm deneniyor..."
   colima stop -f >/dev/null 2>&1 || true
   colima delete -f >/dev/null 2>&1 || true
 done
