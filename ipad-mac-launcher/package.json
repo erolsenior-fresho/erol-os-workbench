@@ -11,7 +11,8 @@
     "serve:www": "python3 -m http.server 4173 --directory www",
     "ios:add": "npm run build:web && npx cap add ios",
     "ios:sync": "npm run build:web && npx cap sync ios",
-    "ios:open": "npx cap open ios"
+    "ios:open": "npx cap open ios",
+    "serve:hermes": "python3 tools/serve-hermes.py"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.2.2",

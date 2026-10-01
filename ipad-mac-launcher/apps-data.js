@@ -1,24 +1,56 @@
-export const CATEGORIES = [
-  { id: "Favoriler", icon: "★", color: "#ffd45a" },
-  { id: "Yapay Zekâ", icon: "✦", color: "#a788ff" },
-  { id: "İş & Notlar", icon: "▤", color: "#67a9ff" },
-  { id: "Geliştirme", icon: "⌘", color: "#91a0b6" },
-  { id: "İletişim", icon: "●", color: "#55d787" },
-  { id: "Seyahat", icon: "✈", color: "#63c7f4" },
-  { id: "Haritalar", icon: "⌖", color: "#67d99b" },
-  { id: "Medya", icon: "▶", color: "#ff6f91" },
-  { id: "Yaratıcılık", icon: "◆", color: "#d58cff" },
-  { id: "Google", icon: "G", color: "#6aa8ff" },
-  { id: "Sistem", icon: "◉", color: "#aeb8c7" },
-  { id: "Araçlar", icon: "⌁", color: "#59c9cd" },
-  { id: "Alışveriş", icon: "▱", color: "#ff9b58" },
-  { id: "Finans", icon: "₺", color: "#5dd18a" },
-  { id: "Sosyal", icon: "@", color: "#ff718b" },
-  { id: "Oyunlar", icon: "✣", color: "#ffcc4d" },
-  { id: "Akıllı Ev", icon: "⌂", color: "#74cfff" },
-  { id: "Uzaktan Erişim", icon: "⇄", color: "#8d93ff" },
-  { id: "Linux", icon: "🐧", color: "#f47421" }
+export const CATEGORY_GROUPS = [
+  {
+    id: "pin",
+    label: "",
+    categories: [
+      { id: "Favoriler", icon: "★", color: "#ffd45a" }
+    ]
+  },
+  {
+    id: "work",
+    label: "İş",
+    categories: [
+      { id: "Yapay Zekâ", icon: "✦", color: "#a788ff" },
+      { id: "İş & Notlar", icon: "▤", color: "#67a9ff" },
+      { id: "Geliştirme", icon: "⌘", color: "#91a0b6" },
+      { id: "Linux", icon: "🐧", color: "#f47421" },
+      { id: "Google", icon: "G", color: "#6aa8ff" }
+    ]
+  },
+  {
+    id: "net",
+    label: "İletişim",
+    categories: [
+      { id: "İletişim", icon: "●", color: "#55d787" },
+      { id: "Sosyal", icon: "@", color: "#ff718b" }
+    ]
+  },
+  {
+    id: "media",
+    label: "Medya",
+    categories: [
+      { id: "Medya", icon: "▶", color: "#ff6f91" },
+      { id: "Yaratıcılık", icon: "◆", color: "#d58cff" },
+      { id: "Oyunlar", icon: "✣", color: "#ffcc4d" }
+    ]
+  },
+  {
+    id: "system",
+    label: "Sistem",
+    categories: [
+      { id: "Sistem", icon: "◉", color: "#aeb8c7" },
+      { id: "Araçlar", icon: "⌁", color: "#59c9cd" },
+      { id: "Haritalar", icon: "⌖", color: "#67d99b" },
+      { id: "Seyahat", icon: "✈", color: "#63c7f4" },
+      { id: "Uzaktan Erişim", icon: "⇄", color: "#8d93ff" },
+      { id: "Akıllı Ev", icon: "⌂", color: "#74cfff" },
+      { id: "Alışveriş", icon: "▱", color: "#ff9b58" },
+      { id: "Finans", icon: "₺", color: "#5dd18a" }
+    ]
+  }
 ];
+
+export const CATEGORIES = CATEGORY_GROUPS.flatMap((group) => group.categories);
 
 const A = (id, name, category, symbol, start, end, url = "", favorite = false) => ({
   id,
@@ -31,6 +63,7 @@ const A = (id, name, category, symbol, start, end, url = "", favorite = false) =
 });
 
 export const APPS = [
+  A("hermes", "Hermes", "Yapay Zekâ", "H", "#a788ff", "#493487", "./hermes.html", true),
   A("files", "Dosyalar", "Sistem", "▰", "#52baff", "#0877dc", "shareddocuments://", true),
   A("safari", "Safari", "Araçlar", "⌁", "#63d7ff", "#0878e9", "https://www.google.com/", true),
   A("mail", "Mail", "İletişim", "✉", "#48b9ff", "#0874dd", "mailto:", true),
