@@ -59,7 +59,8 @@ install_lima() {
   # Eski kurulum kalıntılarını temizle (farklı sürümün guest agent'ları karışmasın)
   sudo rm -rf "$PREFIX/share/lima" "$PREFIX/bin/limactl" "$PREFIX/bin/lima" "$PREFIX/bin/nerdctl.lima" \
               "$PREFIX/bin/docker.lima" "$PREFIX/bin/podman.lima" "$PREFIX/bin/kubectl.lima" "$PREFIX/bin/apptainer.lima"
-  sudo tar -xzf "$TMP/lima.tgz" -C "$PREFIX"
+  # -m: mtime geri yükleme; aksi halde /usr/local kökü için "Can't restore time" hatası verir
+  sudo tar -xzmf "$TMP/lima.tgz" -C "$PREFIX"
   limactl --version
 }
 
