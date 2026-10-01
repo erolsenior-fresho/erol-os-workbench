@@ -1,7 +1,7 @@
 # Open-ended environment register
 Scope: Erol OS launcher project only.
 Canonical package: [LAUNCHER_HANDOFF.md](LAUNCHER_HANDOFF.md).
-User requested Hermes, Obsidian, Perplexity, DeepSeek and “etc etc” after initial rollout.
+User requested Hermes, Obsidian, Perplexity, DeepSeek Google AI Studio, Slack and “etc etc” after initial rollout.
 This register extends consumer coverage without changing ownership or importing all memories.
 
 ## Requested targets
@@ -15,6 +15,8 @@ This register extends consumer coverage without changing ownership or importing 
 | Antigravity | Project execution | Canonical handoff file/reference | Local project configuration UNKNOWN |
 | Hermes | Bounded retrieval and context distribution | Canonical package plus existing knowledge contract | Runtime connection UNKNOWN |
 | Obsidian | Markdown workspace/source surface | Canonical package reference | Vault location, sync and plugin access UNKNOWN |
+| Slack | Project communication/reference surface | Canonical handoff link in the selected channel | Workspace/channel and integration UNKNOWN; no messages sent |
+| Google AI Studio | Prompt/prototype consumer | Canonical package content in session/request context | Project/session configuration and read receipt UNKNOWN |
 | Perplexity | Task-specific consumer | Canonical package URL or supported scoped file retrieval | Read receipt UNKNOWN |
 | DeepSeek | Task-specific consumer | Canonical package through tool retrieval or caller injection | Interface and read receipt UNKNOWN |
 | Ollama | Model backend | Caller injects package content | Caller configuration and read receipt UNKNOWN |
@@ -58,3 +60,18 @@ Default connection and receipt to UNKNOWN.
 A name in this table is not a deployed integration. Do not mark it ACKNOWLEDGED without
 the actual environment's receipt. Keep private session IDs, vault paths, tokens and device
 identifiers outside this public repository.
+
+## Slack boundary
+Slack is a communication surface, not proof that all subscribed AIs know the project.
+Select the actual workspace and project channel before configuring delivery.
+A future authorized announcement should carry the canonical URL, package ID, scope and
+source date; replies/read receipts may be recorded through the existing private registry.
+Do not broadcast unrelated memories or interpret channel membership as acknowledgement.
+No Slack connection, channel selection, app installation or outgoing message occurred here.
+
+## Google AI Studio boundary
+Use the scoped package as session/request context through the actual available interface.
+Do not assume AI Studio inherits Gemini CLI's GEMINI.md or other apps' histories.
+If retrieval tools are available, retrieve the canonical package; otherwise the operator/caller
+must supply its content. Record the version actually used and refresh when it changes.
+No AI Studio project, prompt, API key or live session was accessed here.

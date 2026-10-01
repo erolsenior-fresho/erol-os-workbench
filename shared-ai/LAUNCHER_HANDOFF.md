@@ -19,7 +19,7 @@ This is a bounded project handoff implementation, not activation of the full Sta
 PR #9 is merged; its main commit is 40ca75ebe5d9e9d3a199b088b2f401c0ce1e0c80.
 Source: https://github.com/erolsenior-fresho/erol-os-workbench/pull/9
 Read shared-ai/ENVIRONMENTS.md for the open-ended requested consumer register.
-Hermes, Obsidian, Perplexity, DeepSeek and other requested tools consume the same project
+Hermes, Obsidian, Slack, Google AI Studio, Perplexity, DeepSeek and other requested tools consume the same project
 package through their available authorized interface. No new live integrations are claimed.
 
 ## Verified facts
@@ -64,7 +64,8 @@ Do not describe their proposed behavior as shipped. Do not merge as part of hand
 - Other ChatGPT/Codex, Claude, Gemini, Antigravity, Ollama, Hermes and Marvis sessions:
   receipt is UNKNOWN. No live session or local device was contacted.
 - Obsidian vault integration and Perplexity, DeepSeek, Qwen, Kimi, Grok and Manus receipts
-  are UNKNOWN. Requested coverage is recorded in ENVIRONMENTS.md.
+  are UNKNOWN. Slack delivery and Google AI Studio session loading are also UNKNOWN.
+  Requested coverage is recorded in ENVIRONMENTS.md.
 - Instruction files configure a startup path in updated repository checkouts.
   They do not prove loading by any running session or retroactively update its context.
 

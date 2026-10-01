@@ -15,6 +15,8 @@ it does not replace the canonical sources or the Hermes architecture.
 | Ollama | Calling application injects this file in request context | Model/server alone does not read project instruction files |
 | Hermes | Project package through existing authorized retrieval | Runtime and read receipt unverified |
 | Obsidian | Project Markdown reference or existing authorized vault sync | Vault path, sync and AI plugins unverified |
+| Slack | Canonical handoff reference in a selected project channel | Workspace/channel and messaging authorization not established |
+| Google AI Studio | Scoped package supplied to session/request context | Project/session configuration and receipt unverified |
 | Perplexity | Retrieve project handoff in a scoped workspace/session when supported | Actual retrieval and receipt unverified |
 | DeepSeek | Read handoff through caller tools or inject into request context | Web/app/API interface and receipt unverified |
 | Qwen / Kimi / Grok / Manus | Same scoped retrieval or caller context-injection path | Actual interfaces and receipts unverified |
