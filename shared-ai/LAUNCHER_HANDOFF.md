@@ -1,6 +1,8 @@
 # Erol OS launcher — shared project handoff
-Package: EROL_OS_LAUNCHER_20261001_v1
-Observed: 2026-10-01T04:25:19Z
+Package: EROL_OS_LAUNCHER_20261001_v2
+Launcher source observation: 2026-10-01T04:25:19Z
+Package revision: v2 — adds requested environments after PR #9; launcher facts retain their original observation time.
+Supersedes: EROL_OS_LAUNCHER_20261001_v1
 Owner domain: PROJECT_SPECIFIC (Erol OS launcher)
 Visibility: PUBLIC_REPOSITORY
 Coverage: PARTIAL — repository evidence only; device installations and other AI sessions are unverified.
@@ -12,6 +14,13 @@ It does not authorize importing unrelated conversations, personal data, patent/I
 credentials, changing OAuth scopes, or activating Hermes/Drive background synchronization.
 Apply the existing EROL_OS_AGENT_KNOWLEDGE_CONTRACT_STAGE1A_v1.md.
 This is a bounded project handoff implementation, not activation of the full Stage 1A specification.
+
+## Shared-context rollout
+PR #9 is merged; its main commit is 40ca75ebe5d9e9d3a199b088b2f401c0ce1e0c80.
+Source: https://github.com/erolsenior-fresho/erol-os-workbench/pull/9
+Read shared-ai/ENVIRONMENTS.md for the open-ended requested consumer register.
+Hermes, Obsidian, Perplexity, DeepSeek and other requested tools consume the same project
+package through their available authorized interface. No new live integrations are claimed.
 
 ## Verified facts
 - PR #5 (Add iOS-friendly close-all control) is merged into main.
@@ -54,12 +63,14 @@ Do not describe their proposed behavior as shipped. Do not merge as part of hand
 - Cursor PR author: participated in PR #5; receipt of this new package is UNKNOWN.
 - Other ChatGPT/Codex, Claude, Gemini, Antigravity, Ollama, Hermes and Marvis sessions:
   receipt is UNKNOWN. No live session or local device was contacted.
+- Obsidian vault integration and Perplexity, DeepSeek, Qwen, Kimi, Grok and Manus receipts
+  are UNKNOWN. Requested coverage is recorded in ENVIRONMENTS.md.
 - Instruction files configure a startup path in updated repository checkouts.
   They do not prove loading by any running session or retroactively update its context.
 
 ## Minimal read receipt
 An environment that actually reads the package may emit:
-package_id: EROL_OS_LAUNCHER_20261001_v1
+package_id: EROL_OS_LAUNCHER_20261001_v2
 environment: <actual tool and device/workspace>
 session_id: <actual identifier or UNKNOWN>
 source_ref_read: <commit SHA or URL/ref actually fetched>

@@ -13,16 +13,21 @@ it does not replace the canonical sources or the Hermes architecture.
 | Antigravity | Explicit handoff file/reference | Persistent project-rule installation on its device remains unverified |
 | ChatGPT / Claude / Gemini web or desktop chat | Fetch the canonical URL via an available connector/tool | Repo rules alone do not configure these chat products |
 | Ollama | Calling application injects this file in request context | Model/server alone does not read project instruction files |
-| Hermes / Marvis | Existing authorized retrieval/awareness mechanism | Runtime activation remains unverified; no new workers enabled |
+| Hermes | Project package through existing authorized retrieval | Runtime and read receipt unverified |
+| Obsidian | Project Markdown reference or existing authorized vault sync | Vault path, sync and AI plugins unverified |
+| Perplexity | Retrieve project handoff in a scoped workspace/session when supported | Actual retrieval and receipt unverified |
+| DeepSeek | Read handoff through caller tools or inject into request context | Web/app/API interface and receipt unverified |
+| Qwen / Kimi / Grok / Manus | Same scoped retrieval or caller context-injection path | Actual interfaces and receipts unverified |
+| Marvis / Scout / other agents | Existing authorized project-context mechanism | Runtime and receipts unverified |
 
-Current review package (available before merge):
-https://github.com/erolsenior-fresho/erol-os-workbench/blob/codex/shared-ai-handoff-20261001/shared-ai/LAUNCHER_HANDOFF.md
-
-Canonical URL after merge (not available on main until this change is merged):
+Canonical project handoff:
 https://github.com/erolsenior-fresho/erol-os-workbench/blob/main/shared-ai/LAUNCHER_HANDOFF.md
 
-Repository instruction activation on main is pending merge and checkout refresh.
-Creating this branch does not update any remote AI session.
+PR #9 was merged on 2026-10-01; project startup references are now on main.
+Repository checkout refresh and actual per-session reading remain necessary.
+
+The open-ended [environment register](ENVIRONMENTS.md) covers current and future tools.
+Names in the register are requested targets, not proof of installation or integration.
 
 ## Operational use
 Use existing Git sync on each device; do not discard local work or force-reset a checkout.
