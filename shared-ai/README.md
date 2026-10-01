@@ -15,8 +15,14 @@ it does not replace the canonical sources or the Hermes architecture.
 | Ollama | Calling application injects this file in request context | Model/server alone does not read project instruction files |
 | Hermes / Marvis | Existing authorized retrieval/awareness mechanism | Runtime activation remains unverified; no new workers enabled |
 
-Canonical URL:
+Current review package (available before merge):
+https://github.com/erolsenior-fresho/erol-os-workbench/blob/codex/shared-ai-handoff-20261001/shared-ai/LAUNCHER_HANDOFF.md
+
+Canonical URL after merge (not available on main until this change is merged):
 https://github.com/erolsenior-fresho/erol-os-workbench/blob/main/shared-ai/LAUNCHER_HANDOFF.md
+
+Repository instruction activation on main is pending merge and checkout refresh.
+Creating this branch does not update any remote AI session.
 
 ## Operational use
 Use existing Git sync on each device; do not discard local work or force-reset a checkout.
