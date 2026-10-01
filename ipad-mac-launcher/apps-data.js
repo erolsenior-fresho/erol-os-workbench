@@ -96,7 +96,7 @@ export const APPS = [
 
   A("apple-maps", "Harita", "Haritalar", "⌖", "#7ada8d", "#4d88ee", "https://maps.apple.com/"),
   A("google-maps", "Google Maps", "Haritalar", "⌖", "#ffffff", "#dfe9f2", "https://maps.google.com/"),
-  A("waze", "Waze", "Haritalar", "☺", "#86e2ff", "#35add5", "https://www.waze.com/live-map/"),
+  A("waze", "Waze", "Haritalar", "☺", "#86e2ff", "#35add5", "https://waze.com/ul"),
   A("yandex-navi", "Yandex Navi", "Haritalar", "➤", "#fff09a", "#e6b72f", "https://yandex.com/maps/"),
   A("yandex-maps", "Yandex Maps", "Haritalar", "●", "#ffffff", "#efefef", "https://yandex.com/maps/"),
   A("radar-map", "Radar Haritası", "Haritalar", "⌾", "#9dd7f0", "#2f7ca4"),

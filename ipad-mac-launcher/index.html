@@ -67,8 +67,8 @@
           <button class="install-card" id="installButton" type="button">
             <span class="install-icon">↗</span>
             <span>
-              <strong>Dock’a ekle</strong>
-              <small>Kurulum adımları</small>
+              <strong id="installButtonTitle">Ana ekrana ekle</strong>
+              <small id="installButtonSubtitle">Kurulum adımları</small>
             </span>
           </button>
         </aside>
@@ -85,10 +85,10 @@
                 id="closeAllButton"
                 class="close-all-button"
                 type="button"
-                title="Erol OS çalışan uygulama listesini temizle"
+                title="Erol OS açılan bağlantı listesini temizle; dış uygulamaları kapatmaz"
                 hidden
               >
-                Tümünü Kapat
+                Listeyi Temizle
               </button>
             </div>
           </div>
@@ -151,17 +151,17 @@
       <form method="dialog">
         <div class="dialog-heading">
           <div>
-            <p class="eyebrow">IPAD KURULUMU</p>
-            <h2>Başlatıcıyı Dock’a ekle</h2>
+            <p class="eyebrow" id="installEyebrow">IPAD KURULUMU</p>
+            <h2 id="installTitle">Başlatıcıyı ana ekrana ekle</h2>
           </div>
           <button class="close-button" value="cancel" aria-label="Kapat">×</button>
         </div>
         <ol class="steps">
-          <li><span>1</span><p>Bu sayfayı iPad’de <strong>Safari</strong> ile açın.</p></li>
-          <li><span>2</span><p>Paylaş düğmesine dokunup <strong>Ana Ekrana Ekle</strong> seçin.</p></li>
-          <li><span>3</span><p>Ana ekrandaki <strong>Erol OS</strong> simgesine basılı tutup Dock’a sürükleyin.</p></li>
+          <li><span>1</span><p id="installStep1"></p></li>
+          <li><span>2</span><p id="installStep2"></p></li>
+          <li><span>3</span><p id="installStep3"></p></li>
         </ol>
-        <p class="dialog-note">iPadOS uygulamaları otomatik listelemeye izin vermez. Bu başlatıcı, tanımlı Universal Link’leri ve sizin eklediğiniz bağlantıları kullanır.</p>
+        <p class="dialog-note" id="installNote"></p>
         <div class="dialog-actions">
           <button value="default" class="primary-button">Anladım</button>
         </div>
