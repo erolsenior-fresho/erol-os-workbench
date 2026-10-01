@@ -37,3 +37,14 @@ Bu arayüzü iPhone + iPad için yerel bir iOS uygulaması olarak paketlemek ve 
 ```bash
 npm run build:web
 ```
+
+## Yerel Hermes sohbeti
+
+Mac'te Ollama ve `hermes3-tr` modeli hazırken `npm run serve:hermes` komutunu çalıştırın.
+`http://127.0.0.1:4173/` adresinde Favoriler veya Yapay Zekâ kategorisindeki Hermes simgesi sohbeti açar.
+Sunucu yalnızca loopback üzerinde dinler. Model mesaj gönderildiğinde kullanılır ve yanıt sonrasında bellekten çıkarılır.
+Sohbet geçmişi açık sayfanın belleğinde tutulur; sayfayı kapatmak veya Yeni sohbet düğmesi geçmişi temizler.
+
+Bu adres iPad'de Mac'e ulaşmaz. iPad erişimi için Mac sunucusuna Tailscale Serve üzerinden bağlantı ayrıca kurulmalıdır; şu an yapılandırılmadı.
+
+Kontroller: `npm test`, `npm run build:web`, `python3 -m unittest discover -s tools -p 'test_serve_hermes.py'`.

@@ -1,9 +1,12 @@
-const CACHE_NAME = "erol-os-launcher-v12";
+const CACHE_NAME = "erol-os-launcher-v13";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
+  "./hermes.html",
+  "./hermes.css",
+  "./hermes.js",
   "./apps-data.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",

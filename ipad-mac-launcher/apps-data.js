@@ -63,6 +63,7 @@ const A = (id, name, category, symbol, start, end, url = "", favorite = false) =
 });
 
 export const APPS = [
+  A("hermes", "Hermes", "Yapay Zekâ", "H", "#a788ff", "#493487", "./hermes.html", true),
   A("files", "Dosyalar", "Sistem", "▰", "#52baff", "#0877dc", "shareddocuments://", true),
   A("safari", "Safari", "Araçlar", "⌁", "#63d7ff", "#0878e9", "https://www.google.com/", true),
   A("mail", "Mail", "İletişim", "✉", "#48b9ff", "#0874dd", "mailto:", true),

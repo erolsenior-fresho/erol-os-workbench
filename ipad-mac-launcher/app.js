@@ -111,7 +111,9 @@ const launchApp = (app) => {
     return;
   }
 
-  if (/^https?:/i.test(app.url)) {
+  if (app.id === "hermes") {
+    window.open(new URL(app.url, window.location.href).href, "_blank", "noopener,noreferrer");
+  } else if (/^https?:/i.test(app.url)) {
     window.open(app.url, "_blank", "noopener,noreferrer");
   } else {
     window.location.href = app.url;
