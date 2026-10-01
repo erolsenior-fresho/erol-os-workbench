@@ -1,0 +1,8 @@
+---
+description: Read the shared Erol OS launcher handoff and preserve evidence-based awareness
+alwaysApply: true
+---
+For launcher work read AGENTS.md and shared-ai/LAUNCHER_HANDOFF.md before planning or editing.
+Report the package ID, actual source ref and coverage gaps in this session.
+Follow the handoff update protocol; do not assume other environments are aware.
+Preserve existing workflows and verify non-regression for implementation changes.
