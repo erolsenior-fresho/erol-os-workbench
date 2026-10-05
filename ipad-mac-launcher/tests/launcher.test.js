@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
-import { APPS, CATEGORIES } from "../apps-data.js";
+import { APPS, CATEGORIES, CATEGORY_GROUPS } from "../apps-data.js";
 
 test("app identifiers are unique", () => {
   const ids = APPS.map((app) => app.id);
@@ -13,6 +13,15 @@ test("every app belongs to a visible category", () => {
   for (const app of APPS) {
     assert.ok(categories.has(app.category), `${app.name} has unknown category ${app.category}`);
   }
+});
+
+test("sidebar groups cover every category without duplicates", () => {
+  const grouped = CATEGORY_GROUPS.flatMap((group) => group.categories.map((category) => category.id));
+  assert.deepEqual(grouped, CATEGORIES.map((category) => category.id));
+  assert.deepEqual(
+    CATEGORY_GROUPS.filter((group) => group.label).map((group) => group.label),
+    ["İş", "İletişim", "Medya", "Sistem"]
+  );
 });
 
 test("app records contain renderable icon data", () => {
@@ -64,13 +73,3 @@ test("service worker caches the complete app shell", async () => {
   }
 });
 
-test("running apps can be closed together from the iOS-friendly control", async () => {
-  const [markup, script] = await Promise.all([
-    readFile(new URL("../index.html", import.meta.url), "utf8"),
-    readFile(new URL("../app.js", import.meta.url), "utf8")
-  ]);
-
-  assert.match(markup, /id="closeAllButton"/);
-  assert.match(script, /runningApps\.clear\(\)/);
-  assert.match(script, /closeAllButton\.addEventListener\("click", stopAllApps\)/);
-});

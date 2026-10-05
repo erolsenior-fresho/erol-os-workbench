@@ -1,4 +1,4 @@
-import { APPS, CATEGORIES } from "./apps-data.js";
+import { APPS, CATEGORIES, CATEGORY_GROUPS } from "./apps-data.js";
 
 const CUSTOM_APPS_KEY = "erol-os-custom-apps";
 const FAVORITES_KEY = "erol-os-favorites";
@@ -16,7 +16,6 @@ const elements = {
   systemDock: document.querySelector("#systemDock"),
   editButton: document.querySelector("#editButton"),
   addButton: document.querySelector("#addButton"),
-  closeAllButton: document.querySelector("#closeAllButton"),
   installButton: document.querySelector("#installButton"),
   aboutButton: document.querySelector("#aboutButton"),
   appDialog: document.querySelector("#appDialog"),
@@ -70,15 +69,6 @@ const stopApp = (id, name) => {
   showToast(`${name ?? "Uygulama"} kapatıldı.`);
 };
 
-const stopAllApps = () => {
-  const count = runningApps.size;
-  if (count === 0) return;
-  runningApps.clear();
-  saveRunning();
-  renderDock();
-  showToast(`${count} uygulama kapatıldı.`);
-};
-
 const allApps = () => [...APPS, ...customApps];
 
 const lightForeground = (hex) => {
@@ -121,7 +111,9 @@ const launchApp = (app) => {
     return;
   }
 
-  if (/^https?:/i.test(app.url)) {
+  if (app.id === "hermes") {
+    window.open(new URL(app.url, window.location.href).href, "_blank", "noopener,noreferrer");
+  } else if (/^https?:/i.test(app.url)) {
     window.open(app.url, "_blank", "noopener,noreferrer");
   } else {
     window.location.href = app.url;
@@ -181,33 +173,49 @@ const renderApps = () => {
   elements.emptyState.hidden = visibleApps.length > 0;
 };
 
+const createCategoryButton = (category, counts) => {
+  const button = document.createElement("button");
+  const count = category.id === "Favoriler" ? favorites.size : (counts.get(category.id) ?? 0);
+  button.type = "button";
+  button.className = `category-button${activeCategory === category.id ? " active" : ""}`;
+  button.style.setProperty("--category-color", category.color);
+  button.innerHTML = `
+    <span class="category-icon">${category.icon}</span>
+    <span class="category-name"></span>
+    <span class="category-count">${count}</span>
+  `;
+  button.querySelector(".category-name").textContent = category.id;
+  button.addEventListener("click", () => {
+    activeCategory = category.id;
+    elements.searchInput.value = "";
+    render();
+  });
+  return button;
+};
+
 const renderCategories = () => {
   const counts = allApps().reduce((map, app) => {
     map.set(app.category, (map.get(app.category) ?? 0) + 1);
     return map;
   }, new Map());
 
-  const buttons = CATEGORIES.map((category) => {
-    const button = document.createElement("button");
-    const count = category.id === "Favoriler" ? favorites.size : (counts.get(category.id) ?? 0);
-    button.type = "button";
-    button.className = `category-button${activeCategory === category.id ? " active" : ""}`;
-    button.style.setProperty("--category-color", category.color);
-    button.innerHTML = `
-      <span class="category-icon">${category.icon}</span>
-      <span class="category-name"></span>
-      <span class="category-count">${count}</span>
-    `;
-    button.querySelector(".category-name").textContent = category.id;
-    button.addEventListener("click", () => {
-      activeCategory = category.id;
-      elements.searchInput.value = "";
-      render();
-    });
-    return button;
+  const groups = CATEGORY_GROUPS.map((group) => {
+    const section = document.createElement("section");
+    section.className = `category-group${group.label ? "" : " untitled"}`;
+    if (group.label) {
+      const heading = document.createElement("h2");
+      heading.className = "category-group-label";
+      heading.textContent = group.label;
+      section.append(heading);
+    }
+    const items = document.createElement("div");
+    items.className = "category-group-items";
+    items.append(...group.categories.map((category) => createCategoryButton(category, counts)));
+    section.append(items);
+    return section;
   });
 
-  elements.categoryList.replaceChildren(...buttons);
+  elements.categoryList.replaceChildren(...groups);
 };
 
 const createDockApp = (app) => {
@@ -284,12 +292,6 @@ const renderDock = () => {
     nodes.push(separator, ...runningExtra.map(createDockApp));
   }
   elements.systemDock.replaceChildren(...nodes);
-  elements.closeAllButton.hidden = runningApps.size === 0;
-  elements.closeAllButton.textContent = `Tümünü Kapat (${runningApps.size})`;
-  elements.closeAllButton.setAttribute(
-    "aria-label",
-    `${runningApps.size} çalışan uygulamanın tümünü kapat`
-  );
 };
 
 const render = () => {
@@ -350,7 +352,6 @@ const updateClock = () => {
 
 elements.searchInput.addEventListener("input", renderApps);
 elements.addButton.addEventListener("click", () => elements.appDialog.showModal());
-elements.closeAllButton.addEventListener("click", stopAllApps);
 elements.installButton.addEventListener("click", () => elements.installDialog.showModal());
 elements.aboutButton.addEventListener("click", () => elements.installDialog.showModal());
 
